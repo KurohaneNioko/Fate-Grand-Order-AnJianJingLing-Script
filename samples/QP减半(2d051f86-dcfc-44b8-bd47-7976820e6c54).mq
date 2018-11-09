@@ -1,0 +1,303 @@
+Dim x1,y1,support
+Randomize
+Tap 307,166
+Delay 2000
+If CmpColor(445,1365,"2C6F4B",0.98) = 0 Then 
+    Tap 520,1361	//AP不足就吃苹果(金)
+    //tap 660, 1361 //AP不足就吃苹果(银)
+    //Tap 847,718	//AP不足就吃苹果(铜)
+    //Tap 268,1354  //AP不足就吃石头
+    Delay 3500		//留长一点，方便手动更改吃什么苹果
+    Tap 846,662	//确认吃苹果
+    Delay 2000
+    Tap 307,166	//再点选副本
+End IF
+Rem FindSupport
+Delay 2500
+support = FindPic(244,1594,1079,1852, "Attachment:Find_LegalSupport.png", "000000", 3, 0.7, x1, y1)
+If support = 0 Then 
+    Tap x1 + 5, y1 + 5
+    Delay 3000
+    Goto battle
+End If
+If support = -1 Then 
+TouchDownEvent 932,495,0
+TouchMoveEvent 931,495,0,25
+TouchMoveEvent 930,495,0,9
+TouchMoveEvent 928,495,0,9
+TouchMoveEvent 925,495,0,8
+TouchMoveEvent 921,495,0,8
+TouchMoveEvent 917,495,0,8
+TouchMoveEvent 912,495,0,9
+TouchMoveEvent 905,495,0,9
+TouchMoveEvent 898,494,0,8
+TouchMoveEvent 889,493,0,9
+TouchMoveEvent 879,492,0,8
+TouchMoveEvent 869,491,0,9
+TouchMoveEvent 859,490,0,8
+TouchMoveEvent 848,489,0,9
+TouchMoveEvent 837,487,0,8
+TouchMoveEvent 826,485,0,9
+TouchMoveEvent 812,483,0,8
+TouchMoveEvent 799,481,0,9
+TouchMoveEvent 787,479,0,9
+TouchMoveEvent 775,477,0,8
+TouchMoveEvent 763,476,0,9
+TouchMoveEvent 752,474,0,9
+TouchMoveEvent 740,472,0,9
+TouchMoveEvent 729,470,0,9
+TouchMoveEvent 718,469,0,7
+TouchMoveEvent 706,467,0,8
+TouchMoveEvent 691,465,0,9
+TouchMoveEvent 674,462,0,9
+TouchMoveEvent 657,459,0,8
+TouchMoveEvent 641,455,0,9
+TouchMoveEvent 626,452,0,8
+TouchMoveEvent 613,449,0,8
+TouchMoveEvent 601,447,0,9
+TouchMoveEvent 591,445,0,9
+TouchMoveEvent 582,444,0,9
+TouchMoveEvent 573,442,0,8
+TouchMoveEvent 565,441,0,8
+TouchMoveEvent 557,440,0,8
+TouchMoveEvent 548,438,0,10
+TouchMoveEvent 538,436,0,8
+TouchMoveEvent 529,434,0,9
+TouchMoveEvent 518,432,0,8
+TouchMoveEvent 506,430,0,8
+TouchMoveEvent 496,428,0,9
+TouchMoveEvent 488,427,0,8
+TouchMoveEvent 480,425,0,9
+TouchMoveEvent 473,424,0,9
+TouchMoveEvent 466,423,0,8
+TouchMoveEvent 461,422,0,8
+TouchMoveEvent 456,422,0,9
+TouchMoveEvent 451,421,0,9
+TouchMoveEvent 446,421,0,8
+TouchMoveEvent 440,421,0,9
+TouchMoveEvent 435,421,0,8
+TouchMoveEvent 430,421,0,9
+TouchMoveEvent 425,420,0,8
+TouchMoveEvent 420,419,0,9
+TouchMoveEvent 415,418,0,8
+TouchMoveEvent 410,417,0,9
+TouchMoveEvent 406,416,0,8
+TouchMoveEvent 401,415,0,9
+TouchMoveEvent 397,414,0,8
+TouchMoveEvent 393,413,0,9
+TouchMoveEvent 389,413,0,9
+TouchMoveEvent 385,412,0,10
+TouchMoveEvent 382,411,0,7
+TouchMoveEvent 379,410,0,8
+TouchMoveEvent 376,409,0,9
+TouchMoveEvent 374,408,0,8
+TouchMoveEvent 371,408,0,9
+TouchMoveEvent 368,408,0,8
+TouchMoveEvent 365,407,0,9
+TouchMoveEvent 362,407,0,8
+TouchMoveEvent 360,407,0,9
+TouchMoveEvent 358,407,0,9
+TouchMoveEvent 356,407,0,8
+TouchMoveEvent 355,407,0,10
+TouchMoveEvent 354,407,0,7
+TouchMoveEvent 353,407,0,8
+TouchMoveEvent 352,407,0,9
+TouchMoveEvent 351,407,0,8
+TouchMoveEvent 350,407,0,9
+TouchMoveEvent 349,407,0,9
+TouchMoveEvent 349,406,0,102
+TouchMoveEvent 349,405,0,51
+TouchMoveEvent 349,404,0,8
+TouchMoveEvent 348,404,0,18
+TouchMoveEvent 347, 404, 0, 8
+TouchUpEvent 0	//下拉一页找助战
+End If
+support = FindPic(244,1594,1079,1852, "Attachment:Find_LegalSupport.png", "000000", 3, 0.7, x1, y1)
+If support = 0 Then 
+    Tap x1 + 50, y1 + 50
+    Delay 3000
+    Goto battle
+End If
+If support = -1 Then 
+TouchDownEvent 932,495,0
+TouchMoveEvent 931,495,0,25
+TouchMoveEvent 930,495,0,9
+TouchMoveEvent 928,495,0,9
+TouchMoveEvent 925,495,0,8
+TouchMoveEvent 921,495,0,8
+TouchMoveEvent 917,495,0,8
+TouchMoveEvent 912,495,0,9
+TouchMoveEvent 905,495,0,9
+TouchMoveEvent 898,494,0,8
+TouchMoveEvent 889,493,0,9
+TouchMoveEvent 879,492,0,8
+TouchMoveEvent 869,491,0,9
+TouchMoveEvent 859,490,0,8
+TouchMoveEvent 848,489,0,9
+TouchMoveEvent 837,487,0,8
+TouchMoveEvent 826,485,0,9
+TouchMoveEvent 812,483,0,8
+TouchMoveEvent 799,481,0,9
+TouchMoveEvent 787,479,0,9
+TouchMoveEvent 775,477,0,8
+TouchMoveEvent 763,476,0,9
+TouchMoveEvent 752,474,0,9
+TouchMoveEvent 740,472,0,9
+TouchMoveEvent 729,470,0,9
+TouchMoveEvent 718,469,0,7
+TouchMoveEvent 706,467,0,8
+TouchMoveEvent 691,465,0,9
+TouchMoveEvent 674,462,0,9
+TouchMoveEvent 657,459,0,8
+TouchMoveEvent 641,455,0,9
+TouchMoveEvent 626,452,0,8
+TouchMoveEvent 613,449,0,8
+TouchMoveEvent 601,447,0,9
+TouchMoveEvent 591,445,0,9
+TouchMoveEvent 582,444,0,9
+TouchMoveEvent 573,442,0,8
+TouchMoveEvent 565,441,0,8
+TouchMoveEvent 557,440,0,8
+TouchMoveEvent 548,438,0,10
+TouchMoveEvent 538,436,0,8
+TouchMoveEvent 529,434,0,9
+TouchMoveEvent 518,432,0,8
+TouchMoveEvent 506,430,0,8
+TouchMoveEvent 496,428,0,9
+TouchMoveEvent 488,427,0,8
+TouchMoveEvent 480,425,0,9
+TouchMoveEvent 473,424,0,9
+TouchMoveEvent 466,423,0,8
+TouchMoveEvent 461,422,0,8
+TouchMoveEvent 456,422,0,9
+TouchMoveEvent 451,421,0,9
+TouchMoveEvent 446,421,0,8
+TouchMoveEvent 440,421,0,9
+TouchMoveEvent 435,421,0,8
+TouchMoveEvent 430,421,0,9
+TouchMoveEvent 425,420,0,8
+TouchMoveEvent 420,419,0,9
+TouchMoveEvent 415,418,0,8
+TouchMoveEvent 410,417,0,9
+TouchMoveEvent 406,416,0,8
+TouchMoveEvent 401,415,0,9
+TouchMoveEvent 397,414,0,8
+TouchMoveEvent 393,413,0,9
+TouchMoveEvent 389,413,0,9
+TouchMoveEvent 385,412,0,10
+TouchMoveEvent 382,411,0,7
+TouchMoveEvent 379,410,0,8
+TouchMoveEvent 376,409,0,9
+TouchMoveEvent 374,408,0,8
+TouchMoveEvent 371,408,0,9
+TouchMoveEvent 368,408,0,8
+TouchMoveEvent 365,407,0,9
+TouchMoveEvent 362,407,0,8
+TouchMoveEvent 360,407,0,9
+TouchMoveEvent 358,407,0,9
+TouchMoveEvent 356,407,0,8
+TouchMoveEvent 355,407,0,10
+TouchMoveEvent 354,407,0,7
+TouchMoveEvent 353,407,0,8
+TouchMoveEvent 352,407,0,9
+TouchMoveEvent 351,407,0,8
+TouchMoveEvent 350,407,0,9
+TouchMoveEvent 349,407,0,9
+TouchMoveEvent 349,406,0,102
+TouchMoveEvent 349,405,0,51
+TouchMoveEvent 349,404,0,8
+TouchMoveEvent 348,404,0,18
+TouchMoveEvent 347, 404, 0, 8
+TouchUpEvent 0	//下拉第二页找助战
+End If
+support = FindPic(244,1594,1079,1852, "Attachment:Find_LegalSupport.png", "000000", 3, 0.7, x1, y1)
+If support = 0 Then  
+    Tap x1 + 50, y1 + 50
+    Delay 4000
+    Goto battle
+End If
+If support = -1 Then 
+    Tap 196, 664
+    Delay 800
+    Tap 845,657	//确认刷新助战
+    Delay 7000
+    Goto FindSupport //刷新助战
+End If
+Rem battle
+Tap 1027,141	//开始战斗
+Delay 10000		//等待加载
+While CmpColor(835,1197, "D896AF", 0.98) = -1
+	Delay 50
+Wend
+Delay 50
+
+Tap 870,1347	//小莫魔放
+Delay 1000
+While CmpColor(835,1197, "D896AF", 0.98) = -1
+	Delay 1
+Wend
+Tap 869, 579	//C狐魔放
+Delay 300
+Tap 678, 990
+Delay 1000
+While CmpColor(835,1197, "D896AF", 0.98) = -1
+	Delay 1
+Wend
+Tap 904,217		//点attack
+Delay 1100
+tap 292,972		//冲浪
+delay 80
+tap 754,1729	//点Card1
+delay 80
+tap 751,1355	//点Card2
+Delay 10000
+While CmpColor(835,1197, "D896AF", 0.98) = -1
+	Delay 1
+Wend
+
+Tap 472,136		//御主技能
+Delay 200
+Tap 468,423		//灵子转让
+Delay 200
+Tap 666,973		//选小莫
+Delay 1000
+While CmpColor(835,1197, "D896AF", 0.98) = -1
+	Delay 1
+Wend
+Tap 904,217		//点attack
+Delay 1100
+tap 292,972		//冲浪
+delay 80
+tap 754,1729	//点Card1
+delay 80
+tap 751,1355	//点Card2
+Delay 10000
+While CmpColor(835,1197, "D896AF", 0.98) = -1
+	Delay 1
+Wend
+
+Tap 864,1053	//小莫3技能
+Delay 1000
+While CmpColor(835,1197, "D896AF", 0.98) = -1
+	Delay 1
+Wend
+Tap 904,217		//点attack
+Delay 1100
+tap 292,972		//冲浪
+delay 80
+tap 754,1729	//点Card1
+delay 80
+tap 751,1355	//点Card2
+Delay 10000
+
+Do Until (CmpColor(1015,359, "D1741E", 0.98) = 0)
+	Tap 46,46
+	Delay 20
+Loop
+Delay 50
+Tap 1030, 206
+Delay Int(50*Rnd()+5950)
+Do Until ((CmpColor(48,1492,"EFFEFE",0.95) = 0) Or (CmpColor(324,621, "3CC1FF", 1.00) = 0)  Or (CmpColor(325,631, "0000E6", 1.00) = 0))
+	Tap 57,318
+	Delay 100
+Loop

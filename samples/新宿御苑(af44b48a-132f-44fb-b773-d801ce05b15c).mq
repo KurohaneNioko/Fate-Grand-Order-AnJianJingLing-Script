@@ -1,0 +1,332 @@
+Dim x1,y1,support
+Randomize
+Tap 302,210
+Delay 1000
+Rem FindSupport
+Delay 1000
+support = FindPic(244,1594,1079,1852, "Attachment:FindLunchtime.png", "000000", 3, 0.75, x1, y1)
+If support = 0 Then 
+    Tap x1 + 6, y1 + 6
+    Delay 3000
+    Goto battle
+End If
+If support = -1 Then 
+TouchDownEvent 932,495,0
+TouchMoveEvent 931,495,0,25
+TouchMoveEvent 930,495,0,9
+TouchMoveEvent 928,495,0,9
+TouchMoveEvent 925,495,0,8
+TouchMoveEvent 921,495,0,8
+TouchMoveEvent 917,495,0,8
+TouchMoveEvent 912,495,0,9
+TouchMoveEvent 905,495,0,9
+TouchMoveEvent 898,494,0,8
+TouchMoveEvent 889,493,0,9
+TouchMoveEvent 879,492,0,8
+TouchMoveEvent 869,491,0,9
+TouchMoveEvent 859,490,0,8
+TouchMoveEvent 848,489,0,9
+TouchMoveEvent 837,487,0,8
+TouchMoveEvent 826,485,0,9
+TouchMoveEvent 812,483,0,8
+TouchMoveEvent 799,481,0,9
+TouchMoveEvent 787,479,0,9
+TouchMoveEvent 775,477,0,8
+TouchMoveEvent 763,476,0,9
+TouchMoveEvent 752,474,0,9
+TouchMoveEvent 740,472,0,9
+TouchMoveEvent 729,470,0,9
+TouchMoveEvent 718,469,0,7
+TouchMoveEvent 706,467,0,8
+TouchMoveEvent 691,465,0,9
+TouchMoveEvent 674,462,0,9
+TouchMoveEvent 657,459,0,8
+TouchMoveEvent 641,455,0,9
+TouchMoveEvent 626,452,0,8
+TouchMoveEvent 613,449,0,8
+TouchMoveEvent 601,447,0,9
+TouchMoveEvent 591,445,0,9
+TouchMoveEvent 582,444,0,9
+TouchMoveEvent 573,442,0,8
+TouchMoveEvent 565,441,0,8
+TouchMoveEvent 557,440,0,8
+TouchMoveEvent 548,438,0,10
+TouchMoveEvent 538,436,0,8
+TouchMoveEvent 529,434,0,9
+TouchMoveEvent 518,432,0,8
+TouchMoveEvent 506,430,0,8
+TouchMoveEvent 496,428,0,9
+TouchMoveEvent 488,427,0,8
+TouchMoveEvent 480,425,0,9
+TouchMoveEvent 473,424,0,9
+TouchMoveEvent 466,423,0,8
+TouchMoveEvent 461,422,0,8
+TouchMoveEvent 456,422,0,9
+TouchMoveEvent 451,421,0,9
+TouchMoveEvent 446,421,0,8
+TouchMoveEvent 440,421,0,9
+TouchMoveEvent 435,421,0,8
+TouchMoveEvent 430,421,0,9
+TouchMoveEvent 425,420,0,8
+TouchMoveEvent 420,419,0,9
+TouchMoveEvent 415,418,0,8
+TouchMoveEvent 410,417,0,9
+TouchMoveEvent 406,416,0,8
+TouchMoveEvent 401,415,0,9
+TouchMoveEvent 397,414,0,8
+TouchMoveEvent 393,413,0,9
+TouchMoveEvent 389,413,0,9
+TouchMoveEvent 385,412,0,10
+TouchMoveEvent 382,411,0,7
+TouchMoveEvent 379,410,0,8
+TouchMoveEvent 376,409,0,9
+TouchMoveEvent 374,408,0,8
+TouchMoveEvent 371,408,0,9
+TouchMoveEvent 368,408,0,8
+TouchMoveEvent 365,407,0,9
+TouchMoveEvent 362,407,0,8
+TouchMoveEvent 360,407,0,9
+TouchMoveEvent 358,407,0,9
+TouchMoveEvent 356,407,0,8
+TouchMoveEvent 355,407,0,10
+TouchMoveEvent 354,407,0,7
+TouchMoveEvent 353,407,0,8
+TouchMoveEvent 352,407,0,9
+TouchMoveEvent 351,407,0,8
+TouchMoveEvent 350,407,0,9
+TouchMoveEvent 349,407,0,9
+TouchMoveEvent 349,406,0,102
+TouchMoveEvent 349,405,0,51
+TouchMoveEvent 349,404,0,8
+TouchMoveEvent 348,404,0,18
+TouchMoveEvent 347, 404, 0, 8
+TouchUpEvent 0	//下拉一页找助战
+End If
+support = FindPic(244,1594,1079,1852, "Attachment:FindLunchtime.png", "000000", 3, 0.75, x1, y1)
+If support = 0 Then 
+    Tap x1 + 6, y1 + 6
+    Delay 3000
+    Goto battle
+End If
+If support = -1 Then 
+TouchDownEvent 932,495,0
+TouchMoveEvent 931,495,0,25
+TouchMoveEvent 930,495,0,9
+TouchMoveEvent 928,495,0,9
+TouchMoveEvent 925,495,0,8
+TouchMoveEvent 921,495,0,8
+TouchMoveEvent 917,495,0,8
+TouchMoveEvent 912,495,0,9
+TouchMoveEvent 905,495,0,9
+TouchMoveEvent 898,494,0,8
+TouchMoveEvent 889,493,0,9
+TouchMoveEvent 879,492,0,8
+TouchMoveEvent 869,491,0,9
+TouchMoveEvent 859,490,0,8
+TouchMoveEvent 848,489,0,9
+TouchMoveEvent 837,487,0,8
+TouchMoveEvent 826,485,0,9
+TouchMoveEvent 812,483,0,8
+TouchMoveEvent 799,481,0,9
+TouchMoveEvent 787,479,0,9
+TouchMoveEvent 775,477,0,8
+TouchMoveEvent 763,476,0,9
+TouchMoveEvent 752,474,0,9
+TouchMoveEvent 740,472,0,9
+TouchMoveEvent 729,470,0,9
+TouchMoveEvent 718,469,0,7
+TouchMoveEvent 706,467,0,8
+TouchMoveEvent 691,465,0,9
+TouchMoveEvent 674,462,0,9
+TouchMoveEvent 657,459,0,8
+TouchMoveEvent 641,455,0,9
+TouchMoveEvent 626,452,0,8
+TouchMoveEvent 613,449,0,8
+TouchMoveEvent 601,447,0,9
+TouchMoveEvent 591,445,0,9
+TouchMoveEvent 582,444,0,9
+TouchMoveEvent 573,442,0,8
+TouchMoveEvent 565,441,0,8
+TouchMoveEvent 557,440,0,8
+TouchMoveEvent 548,438,0,10
+TouchMoveEvent 538,436,0,8
+TouchMoveEvent 529,434,0,9
+TouchMoveEvent 518,432,0,8
+TouchMoveEvent 506,430,0,8
+TouchMoveEvent 496,428,0,9
+TouchMoveEvent 488,427,0,8
+TouchMoveEvent 480,425,0,9
+TouchMoveEvent 473,424,0,9
+TouchMoveEvent 466,423,0,8
+TouchMoveEvent 461,422,0,8
+TouchMoveEvent 456,422,0,9
+TouchMoveEvent 451,421,0,9
+TouchMoveEvent 446,421,0,8
+TouchMoveEvent 440,421,0,9
+TouchMoveEvent 435,421,0,8
+TouchMoveEvent 430,421,0,9
+TouchMoveEvent 425,420,0,8
+TouchMoveEvent 420,419,0,9
+TouchMoveEvent 415,418,0,8
+TouchMoveEvent 410,417,0,9
+TouchMoveEvent 406,416,0,8
+TouchMoveEvent 401,415,0,9
+TouchMoveEvent 397,414,0,8
+TouchMoveEvent 393,413,0,9
+TouchMoveEvent 389,413,0,9
+TouchMoveEvent 385,412,0,10
+TouchMoveEvent 382,411,0,7
+TouchMoveEvent 379,410,0,8
+TouchMoveEvent 376,409,0,9
+TouchMoveEvent 374,408,0,8
+TouchMoveEvent 371,408,0,9
+TouchMoveEvent 368,408,0,8
+TouchMoveEvent 365,407,0,9
+TouchMoveEvent 362,407,0,8
+TouchMoveEvent 360,407,0,9
+TouchMoveEvent 358,407,0,9
+TouchMoveEvent 356,407,0,8
+TouchMoveEvent 355,407,0,10
+TouchMoveEvent 354,407,0,7
+TouchMoveEvent 353,407,0,8
+TouchMoveEvent 352,407,0,9
+TouchMoveEvent 351,407,0,8
+TouchMoveEvent 350,407,0,9
+TouchMoveEvent 349,407,0,9
+TouchMoveEvent 349,406,0,102
+TouchMoveEvent 349,405,0,51
+TouchMoveEvent 349,404,0,8
+TouchMoveEvent 348,404,0,18
+TouchMoveEvent 347, 404, 0, 8
+TouchUpEvent 0	//下拉第二页找助战
+End If
+delay 2000
+support = FindPic(244,1594,1079,1852, "Attachment:FindLunchtime.png", "000000", 3, 0.75, x1, y1)
+If support = 0 Then  
+    Tap x1 + 6, y1 + 6
+    Delay 2000
+    Goto battle
+End If
+If support = -1 Then 
+    Tap 196, 664
+    Delay 2000
+    Tap 845,657	//确认刷新助战
+    Delay 3000
+    Goto FindSupport //刷新助战
+End If
+Rem battle
+Tap 1027,141	//开始战斗
+Delay 10000		//等待加载
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+delay 1
+Tap 868,1322	//R小莫魔放
+Delay 1000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 904,217		//点attack
+Delay 1300
+tap 292,972		//点冲浪
+Delay 80
+tap 754,1729	//第1张卡
+delay 80
+tap 751,1355	//第2张卡
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+delay 1
+
+Tap 862,578		//R姐自冲
+Delay 1000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 904,217		//点attack
+Delay 1300
+tap 295,687		//点骑英
+Delay 80
+tap 754,1729	//第1张卡
+delay 80
+tap 751,1355	//第2张卡
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+delay 1
+
+Tap 465,123		//御主技能
+Delay 200
+Tap 475,288		//换人
+Delay 300
+Tap 518, 1110	//点R姐
+Delay 30
+Tap 513, 821	//点孔明
+Delay 30
+Tap 938,955		//点确定
+Delay 2000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 861,857		//孔明1技能
+delay 300
+Tap 672,1443	//给r金时
+Delay 1000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 859,716		//孔明2技能
+Delay 1000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 867,586		//孔明3技能
+Delay 1000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 865,1055	//r小莫3技能
+Delay 1000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 873,1672	//r金时自冲
+Delay 1000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 862,1815	//r金时魔放
+Delay 1000
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 489,134		//点御主技能
+delay 200
+Tap 470,554		//点全体加攻
+Delay 1100
+While CmpColor(835,1505, "6EA7F2", 0.98) = -1
+	delay 1
+Wend
+Tap 904,217		//点attack
+Delay 1300
+Tap 308,958		//点冲浪
+Delay 80
+Tap 317,1295	//点开车
+Delay 80
+tap 754,1729	//第1张卡
+Delay 13000
+
+Do Until (CmpColor(1012,197, "220D0A", 0.98) = 0)
+	Tap 46,46
+	Delay 20
+Loop
+Delay 40
+Tap 1030, 206
+Delay Int(50*Rnd()+5950)
+Do Until (CmpColor(330,648, "FFFFFF", 0.99) = 0)
+	Tap 57, 318
+	If (CmpColor(328,648, "0000E6", 0.98) = 0)
+		EndScript
+	End If
+	Delay 700
+Loop
