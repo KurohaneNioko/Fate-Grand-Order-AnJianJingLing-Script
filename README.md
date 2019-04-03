@@ -5,6 +5,8 @@
 
 ### 按键精灵手机助手 FGO自动战斗脚本
 
+Update On 2019-04-03: Adapt to FGO Client, Version 1.45.1
+
 based on FGO Chinese mainland server.
 
 only use it when upper right corner of FGO screen is upeer left coner of your phone.
