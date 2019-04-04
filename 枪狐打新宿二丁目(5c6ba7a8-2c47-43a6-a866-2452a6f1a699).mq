@@ -271,11 +271,11 @@ Function UseCards(card1, card2, card3)
     X = GetCardX(card1)
     Y = GetCardY(card1)
     Tap X, Y
-    Delay 80
+    Delay 120
     X = GetCardX(card2)
     Y = GetCardY(card2)
     Tap X, Y
-    Delay 80
+    Delay 120
     X = GetCardX(card3)
     Y = GetCardY(card3)
     Tap X, Y
