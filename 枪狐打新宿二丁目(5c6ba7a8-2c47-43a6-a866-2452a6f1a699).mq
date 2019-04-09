@@ -1,13 +1,13 @@
 Dim EatApple=/*True*/False//吃不吃果？
 Dim OFF = 0        //关不关机
 Dim AppleY=488, AppleNo=2	/*吃的苹果的Y坐标，苹果种类从上往下1-4*/
-Dim SkillJudgeX=835, SkillJudgeY=1323, SkillJudgeColor="455E2C"
+Dim SkillJudgeX=830, SkillJudgeY=1178, SkillJudgeColor="3D5524"
 /*用于判断是否可以继续操作的技能坐标及颜色信息*/
 Dim lunchtimePath = "Attachment:FindLunchtime.png" //找的助战需要何种从者/礼装
 Dim SkillX=862/*技能x坐标*/, MasterSkillX=467/*御主技能X坐标*/, SingleSkillChooseX=657/*单体技能选择己方从者时的X坐标*/
 Dim NPCardX=310, NormalCardX=845/*宝具卡普通卡的x坐标*/
 Dim times=4, similarity=0.6//找助战时的下拉次数和相似度
-Dim CardClassifyX = 640//用于判断卡色
+Dim CardClassifyX = 500//用于判断卡色
 Dim Y12 = 1540, Y23 = 1140, Y34 = 740, Y45 = 340//分割各普通卡的y坐标
 Dim red=1, blue=2, green=3//卡色代号
 KeepScreen True	//防止省电模式自动关屏
@@ -39,16 +39,20 @@ Tap 1027,141	//开始战斗
 Delay 16000		//等待加载
 Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
 Delay 500
-Rem jj
+//Rem jj
+
 Dim NPok = 0
-Dim Svt = "Attachment:raber.png", Color=blue
+Dim Svt = "Attachment:madablue.png", Color=blue
 
 Tap 71, 1854
 Delay 200
 Call TapSkill (8, 0, 0)	//孔明2技能
 Call TapSkill (7, 1, 1)	//孔明1技能
+//Rem jj
+Dim t=1
 Do
 	Call ClickAttack()
+	
 	If NPok = 0 Then 
 		Call MustUseThisCard(Svt, Color)
 	Else 
@@ -58,18 +62,29 @@ Do
 	Delay 10000
 	Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
 	Delay 500
+	t=t+1
 Loop Until isInStage2()=1
 
+//While t < 5
+//	Call ClickAttack()
+//	Call RedCardsFirst()
+//	Delay 10000
+//	Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
+//	Delay 500
+//	t=t+1
+//Wend
 Call TapSkill (1, 0, 0)	//枪狐1技能
 Call TapSkill (9, 0, 0)	//孔明3技能
 Call ClickAttack()
-Call UseCards(7, 2, 1)	//1号从者宝具
+Call UseCards(7, 2, 1)	//2号从者宝具
 Delay 16000
 Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
 Delay 500
 
 Call TapSkill (2, 0, 0)	//枪狐2技能
+//Call TapSkill (7, 1, 1)	//孔明1技能
 Call MasterSkill_OneUp(1, 1)	//加宝具威力
+Call TapSkill (6, 0, 0)	//玛尔达3技能
 Call ClickAttack()
 Call RedFirst_NP(6, 1)	//枪狐宝具
 Delay 17000
@@ -557,6 +572,7 @@ Function MustUseThisCard(SvtPng, Color)
 	svts(2) = IdentifyCardServant(SvtPng, Y23, Y34)
 	svts(3) = IdentifyCardServant(SvtPng, Y34, Y45)
 	svts(4) = IdentifyCardServant(SvtPng, Y45, 0)
+	TracePrint svts(0), svts(1), svts(2), svts(3), svts(4)
 	ReleaseCapture 
 	//查找对应从者的对应卡
 	Dim capacity = 0
