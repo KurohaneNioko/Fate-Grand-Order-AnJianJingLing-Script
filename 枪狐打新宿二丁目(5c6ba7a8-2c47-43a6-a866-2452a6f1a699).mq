@@ -586,6 +586,9 @@ Function MustUseThisCard(SvtPng, Color)
 		End If
 	Next
 	Select Case capacity
+		Case 3
+		 	Call UseCards(use(0), use(1), use(2))
+		 	NPok = 1
 		Case 2
 		 	For i = 0 To 4
 		 		If (i <> use(0)-1 and i <> use(1)-1) Then 
