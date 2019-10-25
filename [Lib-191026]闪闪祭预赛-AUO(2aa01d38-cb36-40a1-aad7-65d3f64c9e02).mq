@@ -41,17 +41,21 @@ Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
 Delay 500
 Rem jj
 
+//打NP相关
 Dim NPok = 0
 Dim Svt = "Attachment:jkblue.png", Color=blue
+//集中火力相关
+Dim Core = "Attachment:lancelot.png"
+
 Dim t=1
 //Rem jj
-Call MasterSkill_OneUp(1, 3) //长江回避
+//Call MasterSkill_OneUp(1, 3) //长江回避
 Do
 	If t = 3 Then 
 		Call MasterSkill_OneUp(1, 1) //长江回血
 	End If
     Call ClickAttack()
-    Call RedCardsFirst()
+    Call FocusOn(1)
     Delay 7201
     Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
     Delay 500
@@ -80,12 +84,423 @@ Call UseCards(6,1,2)
 Delay 17001
 Call EndBattle(EatApple, 400, 669)
 
+Function FocusOn(TargetPlace)
+	/* 集中火力平A 若有Core的多张卡 则去打大怪，否则打其他小怪 */
+	//这里是狂黑贞+齐格刷炉心
+	//Dim Core = "Attachment:JAB.png"
+	Delay 200	//等星星分配完
+    Dim cards = Array(0, 0, 0, 0, 0)
+    Dim svts = Array(0, 0, 0, 0, 0)
+    Dim use = Array(0, 0, 0)
+    Dim i=0, redSum=0, blueSum=0, greenSum=0
+    Dim CoreCardColor = Array(0,0,0,0,0)
+    //各卡是黑贞的什么卡，0代表非黑贞
+    Dim CoreRed=0, CoreBlue=0, CoreGreen=0
+    //输出手三色卡的各自数量
+    KeepCapture
+    cards(0) = IdentifyCardColor(1920, Y12)
+    cards(1) = IdentifyCardColor(Y12, Y23)
+    cards(2) = IdentifyCardColor(Y23, Y34)
+    cards(3) = IdentifyCardColor(Y34, Y45)
+    cards(4) = IdentifyCardColor(Y45, 0)
+    svts(0) = IdentifyCardServant(Core, 1920, Y12)
+    svts(1) = IdentifyCardServant(Core, Y12, Y23)
+    svts(2) = IdentifyCardServant(Core, Y23, Y34)
+    svts(3) = IdentifyCardServant(Core, Y34, Y45)
+    svts(4) = IdentifyCardServant(Core, Y45, 0)
+    ReleaseCapture    
+    //计算各色卡数量和黑贞各色卡情况
+    For i = 0 To 4
+        If (cards(i) = red) Then 
+            redSum = redSum+1
+        ElseIf (cards(i) = blue) Then 
+            blueSum = blueSum+1
+        ElseIf (cards(i) = green) Then 
+            greenSum = greenSum+1
+        End If
+        If svts(i) = 1 Then 
+        	CoreCardColor(i) = cards(i)
+        	If (cards(i) = red) Then 
+            	CoreRed = CoreRed+1
+        	ElseIf (cards(i) = blue) Then 
+            	CoreBlue = CoreBlue+1
+        	ElseIf (cards(i) = green) Then 
+            	CoreGreen = CoreGreen+1
+        	End If 
+        End If
+    Next
+    TracePrint CoreCardColor(0), CoreCardColor(1), CoreCardColor(2), CoreCardColor(3), CoreCardColor(4)
+    //大怪位置左到右1 2 3，决定了在不打大怪的时候选什么位置的小怪，优先中间，没有就选最左
+	//1 65,1857 || 2 65,1481 || 3 73,1131
+	If CoreRed+CoreBlue+CoreGreen<2
+		Delay 100
+		If TargetPlace = 1 Then 
+			Tap 73, 1131
+			Delay 100
+			Tap 65,1481
+		ElseIf TargetPlace = 2 Then
+			Tap 73, 1131
+			Delay 100
+			Tap 65,1857
+		Else 
+			Tap 65, 1857
+			Delay 100
+			Tap 65,1481
+		End If
+		TracePrint "Small"
+	Else 
+		Delay 100
+		If TargetPlace = 1 Then 
+			Tap 65,1857
+		ElseIf TargetPlace = 2 Then
+			Tap 65,1481
+		Else 
+			Tap 73,1131
+		End If
+		TracePrint "Big"
+	End If
+	Dim capacity = 0, FillCounter = 0
+    //3张卡 BBB > BAB > BQB > BAA > BQA > BQQ > AAA > QQQ
+    If CoreRed = 3 Then
+    	For i = 0 To 4
+    		If (CoreCardColor(i) = red) Then 
+    			use(capacity) = i+1
+    			capacity = capacity + 1
+    			If capacity = 3 Then 
+                	Exit For
+                End If
+    		End If
+    	Next
+    ElseIf (CoreRed = 2 And CoreBlue = 1) Then
+     //BAB
+    	For i = 0 To 4
+    		If (CoreCardColor(i) = red) Then 
+    			If (use(0) = 0) Then 
+    				FillCounter = FillCounter + 1
+    				use(0) = i+1
+    			Else 
+    				FillCounter = FillCounter + 1
+    				use(2) = i+1
+    			End If
+            ElseIf (CoreCardColor(i) = blue) Then 
+            	FillCounter = FillCounter + 1
+            	use(1) = i+1
+            End If
+            If FillCounter = 3 Then 
+            	Exit For
+            End If
+    	Next
+    ElseIf (CoreRed = 2 And CoreGreen = 1) Then
+     //BQB
+    	For i = 0 To 4
+    		If (CoreCardColor(i) = red) Then 
+    			If (use(0) = 0) Then 
+    				FillCounter = FillCounter + 1
+    				use(0) = i+1
+    			Else 
+    				FillCounter = FillCounter + 1
+    				use(2) = i+1
+    			End If
+            ElseIf (CoreCardColor(i) = green) Then 
+            	FillCounter = FillCounter + 1
+            	use(1) = i+1
+            End If
+            If FillCounter = 3 Then 
+            	Exit For
+            End If
+    	Next
+    ElseIf (CoreRed = 1 And CoreBlue = 2) Then
+     //BAA
+    	For i = 0 To 4
+    		If (CoreCardColor(i) = red) Then  
+    			FillCounter = FillCounter + 1
+    			use(0) = i+1
+            ElseIf (CoreCardColor(i) = blue) Then
+            	FillCounter = FillCounter + 1
+            	If (use(1) = 0) Then
+            		use(1) = i+1
+            	Else 
+            		use(2) = i+1
+                End If
+            End If
+            If FillCounter = 3 Then 
+            	Exit For
+            End If
+    	Next
+    ElseIf (CoreRed = 1 And CoreBlue = 1 And CoreGreen=1) Then
+     //BQA
+    	For i = 0 To 4
+    		If (CoreCardColor(i) = red) Then  
+    			FillCounter = FillCounter + 1
+    			use(0) = i+1
+            ElseIf (CoreCardColor(i) = green) Then 
+            	FillCounter = FillCounter + 1
+            	use(1) = i+1
+            ElseIf (CoreCardColor(i) = blue) Then 
+            	FillCounter = FillCounter + 1
+            	use(2) = i+1
+            End If
+            If FillCounter = 3 Then 
+            	Exit For
+            End If
+    	Next
+    ElseIf (CoreRed = 1 And CoreGreen = 2) Then
+     //BQQ
+    	For i = 0 To 4
+    		If (CoreCardColor(i) = red) Then  
+    			FillCounter = FillCounter + 1
+    			use(0) = i+1
+            ElseIf (CoreCardColor(i) = green) Then
+            	FillCounter = FillCounter + 1
+            	If (use(1) = 0) Then
+            		use(1) = i+1
+            	Else 
+            		use(2) = i+1
+                End If
+            End If
+            If FillCounter = 3 Then 
+            	Exit For
+            End If
+    	Next
+    ElseIf (CoreBlue = 3) Then
+     //AAA
+    	For i = 0 To 4
+    		If (CoreCardColor(i) = blue) Then 
+    			use(capacity) = i+1
+    			capacity = capacity + 1
+    			If capacity = 3 Then 
+                	Exit For
+                End If
+            End If
+    	Next
+    ElseIf (CoreGreen = 3) Then
+     //QQQ
+    	For i = 0 To 4
+    		If (CoreCardColor(i) = green) Then 
+    			use(capacity) = i+1
+    			capacity = capacity + 1
+    			If capacity = 3 Then 
+                	Exit For
+                End If
+            End If
+    	Next	
+    End If
+    If (use(0) <> 0 And use(1) <> 0 And use(2) <> 0) Then 
+    	TracePrint use(0), use(1), use(2)
+    	Call UseCards(use(0), use(1), use(2))
+    	Exit Function
+	End If
+	//黑贞卡数量不满足以上组合的情况 BB/BA/BQ/AQ/B/A/Q
+	capacity = 0
+	FillCounter = 0
+	If (CoreRed = 2) Then 
+	 //BXB
+		For i = 0 To 4
+			If (CoreCardColor(i) = red) Then 
+				If (use(0) = 0) Then 
+					use(0) = i + 1
+				Else 
+					use(2) = i + 1
+				End If
+			End If
+		Next
+		//找别的卡
+		For i = 0 To 4
+			If (use(0) <> i+1 And use(2) <> i+1) Then 
+				If (cards(i) = green And cards(use(1))=0) Then 
+					use(1) = i + 1
+				ElseIf (cards(i) = blue And cards(use(1))<>red) Then
+					use(1) = i + 1
+				ElseIf (cards(i) = red) Then 
+					use(1) = i + 1
+				End If
+			End If
+		Next
+	ElseIf (CoreRed = 1 And CoreBlue = 1) Then
+	 	If redSum = CoreRed Then
+	 		//BXA
+			For i = 0 To 4
+				If (CoreCardColor(i) = red) Then 
+					use(0) = i + 1
+				ElseIf (CoreCardColor(i) = blue) Then
+					use(2) = i + 1
+				End If
+			Next
+			//找别的卡
+			For i = 0 To 4
+				If (use(0) <> i+1 And use(2) <> i+1) Then 
+					If (cards(i) = green And cards(use(1))=0) Then 
+						use(1) = i + 1
+					ElseIf (cards(i) = blue And cards(use(1))<>red) Then
+						use(1) = i + 1
+					ElseIf (cards(i) = red) Then 
+						use(1) = i + 1
+					End If
+				End If
+			Next
+		Else 
+			//XAB, X=red
+			For i = 0 To 4
+				If (CoreCardColor(i) = red) Then 
+					use(2) = i + 1
+				ElseIf (CoreCardColor(i) = blue) Then
+					use(1) = i + 1
+				End If
+			Next
+			//找别的卡
+			For i = 0 To 4
+				If (use(1) <> i+1 And use(2) <> i+1) Then 
+					If (cards(i) = red) Then 
+						use(0) = i + 1
+					End If
+				End If
+			Next
+		End If	
+	ElseIf (CoreRed = 1 And CoreGreen = 1) Then
+		If redSum = CoreRed Then
+	 		//BXQ
+			For i = 0 To 4
+				If (CoreCardColor(i) = red) Then 
+					use(0) = i + 1
+				ElseIf (CoreCardColor(i) = green) Then
+					use(2) = i + 1
+				End If
+			Next
+			//找别的卡
+			For i = 0 To 4
+				If (use(0) <> i+1 And use(2) <> i+1) Then 
+					If (cards(i) = green And cards(use(1))=0) Then 
+						use(1) = i + 1
+					ElseIf (cards(i) = blue And cards(use(1))<>red) Then
+						use(1) = i + 1
+					ElseIf (cards(i) = red) Then 
+						use(1) = i + 1
+					End If
+				End If
+			Next
+		Else 
+			//XQB, X=red
+			For i = 0 To 4
+				If (CoreCardColor(i) = red) Then 
+					use(2) = i + 1
+				ElseIf (CoreCardColor(i) = green) Then
+					use(1) = i + 1
+				End If
+			Next
+			//找别的卡
+			For i = 0 To 4
+				If (use(1) <> i+1 And use(2) <> i+1) Then 
+					If (cards(i) = red) Then 
+						use(0) = i + 1
+					End If
+				End If
+			Next
+		End If
+	ElseIf (CoreBlue = 1 And CoreGreen = 1) Then
+	//XQA
+		For i = 0 To 4
+			If (CoreCardColor(i) = green) Then 
+				use(1) = i + 1
+			ElseIf (CoreCardColor(i) = blue) Then
+				use(2) = i + 1
+			End If
+		Next
+		//找别的卡
+		For i = 0 To 4
+			If (use(1) <> i+1 And use(2) <> i+1) Then 
+				If (cards(i) = green And use(0)=0) Then 
+					use(0) = i + 1
+				ElseIf (cards(i) = blue And cards(use(0))<>red) Then
+					use(0) = i + 1
+				ElseIf (cards(i) = red) Then 
+					use(0) = i + 1
+				End If
+			End If	
+		Next
+	ElseIf CoreRed = 1 Or CoreBlue = 1 Or CoreGreen = 1 Then
+		If CoreRed = redSum And CoreRed = 1 Then 
+			For i = 0 To 4
+				If (svts(i) = 1) Then 
+					use(0) = i + 1
+					Exit For
+				End If
+			Next
+			//找别的卡 填充第三张卡
+			For i = 0 To 4
+				If (use(0) <> i+1) Then 
+					If (cards(i) = green And use(2)=0) Then 
+						use(2) = i + 1
+					ElseIf (cards(i) = blue And cards(use(2))<>red) Then
+						use(2) = i + 1
+					ElseIf (cards(i) = red) Then 
+						use(2) = i + 1
+					End If
+				End If	
+			Next
+			//找别的卡 填充第二张卡
+			For i = 0 To 4
+				If (use(2) <> i+1 And use(0) <> i+1 ) Then 
+					If (cards(i) = green And use(1)=0) Then 
+						use(1) = i + 1
+					ElseIf (cards(i) = blue And cards(use(1))<>red) Then
+						use(1) = i + 1
+					ElseIf (cards(i) = red) Then 
+						use(1) = i + 1
+					End If
+				End If	
+			Next
+		Else
+			For i = 0 To 4
+				If (svts(i) = 1) Then 
+					use(2) = i + 1
+					Exit For
+				End If
+			Next
+			//找别的卡 填充第一张卡
+			For i = 0 To 4
+				If (use(2) <> i+1) Then 
+					If (cards(i) = green And use(0)=0) Then 
+						use(0) = i + 1
+					ElseIf (cards(i) = blue And cards(use(0))<>red) Then
+						use(0) = i + 1
+					ElseIf (cards(i) = red) Then 
+						use(0) = i + 1
+					End If
+				End If	
+			Next
+			//找别的卡 填充第二张卡
+			For i = 0 To 4
+				If (use(2) <> i+1 And use(0) <> i+1 ) Then 
+					If (cards(i) = green And use(1)=0) Then 
+						use(1) = i + 1
+					ElseIf (cards(i) = blue And cards(use(1))<>red) Then
+						use(1) = i + 1
+					ElseIf (cards(i) = red) Then 
+						use(1) = i + 1
+					End If
+				End If	
+			Next
+		End If
+	Else
+		//剩下的情况用RedFirst
+		Call RedCardsFirst()
+		Exit Function
+	End If
+	TracePrint use(0), use(1), use(2)
+	Call UseCards(use(0), use(1), use(2))
+End Function
+
 
 //本脚本是以手机右侧为横屏后fgo屏幕下方为基准制作的
 Function Slide1PageSupport()
     //下拉一页找助战
-    Swipe 986, 418, 620, 418, 25
-    Delay 54
+    TouchDown 986, 418, 1
+    Delay 17
+    TouchMove 620, 418, 1, 25
+    Delay 17
+    TouchUp 1
+    //Swipe 986, 418, 620, 418, 25
+    Delay 65
 End Function
 
 Function ChkValidSupport(PicPath, times, sim)
@@ -606,7 +1021,7 @@ End Function
 Function IdentifyCardServant(SvtPng, y1, y2)
     //识别卡的从者 是png的返回1，负责返回0
     Dim x, y
-    Dim rst = FindPic(CardClassifyX, y2, 1080, y1, SvtPng, "000000", 3, similarity, x, y)
+    Dim rst = FindPic(CardClassifyX, y2, 1080, y1, SvtPng, "000000", 3, 0.73, x, y)
     If x > -1 And y > -1 Then 
         IdentifyCardServant = 1
         Exit Function
