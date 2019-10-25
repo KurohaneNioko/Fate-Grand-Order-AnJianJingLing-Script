@@ -26,9 +26,9 @@ select support as you like (take pictures of the support you want).
 
 recognize buster arts quick cards, even some servants.
 
-can use BBB/BAB/BQB .ect to more damage.
+can use BBB/BAB/BQB .ect for more damage.
 
-judge whether the script can do next operation. (use skill/use cards/skip friends application)
+judge whether the script can do next operation. (use skill/use cards/skip friends application/Skip Essence Craft Drop(Only Star 5 Now))
 
 in floder "pic4scripts", there're some useful pictures for your own script design.
 
