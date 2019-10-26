@@ -49,7 +49,7 @@ Dim Core = "Attachment:lancelot.png"
 
 Dim t=1
 //Rem jj
-//Call MasterSkill_OneUp(1, 3) //长江回避
+Call MasterSkill_OneUp(1, 3) //长江回避
 Do
 	If t = 3 Then 
 		Call MasterSkill_OneUp(1, 1) //长江回血
@@ -159,6 +159,7 @@ Function FocusOn(TargetPlace)
 		End If
 		TracePrint "Big"
 	End If
+	Delay 153
 	Dim capacity = 0, FillCounter = 0
     //3张卡 BBB > BAB > BQB > BAA > BQA > BQQ > AAA > QQQ
     If CoreRed = 3 Then
