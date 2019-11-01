@@ -1,7 +1,7 @@
-Dim EatApple=/*True*/False//吃不吃果？
+Dim EatApple=True//*/False//吃不吃果？
 Dim OFF = 0        //关不关机
 Dim AppleY=488, AppleNo=2	/*吃的苹果的Y坐标，苹果种类从上往下1-4*/
-Dim SkillJudgeX=860, SkillJudgeY=1039, SkillJudgeColor="11ACE0|08566F"
+Dim SkillJudgeX=890, SkillJudgeY=1815, SkillJudgeColor="0C83F6"
 /*用于判断是否可以继续操作的技能坐标及颜色信息*/
 Dim lunchtimePath = "Attachment:CBACKT.png" //找的助战需要何种从者/礼装
 Dim SkillX=862/*技能x坐标*/, MasterSkillX=467/*御主技能X坐标*/, SingleSkillChooseX=657/*单体技能选择己方从者时的X坐标*/
@@ -57,7 +57,7 @@ Do
     Call Advantage(1)
     Delay 7201
     Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
-    Delay 500
+    Delay 801
     t = t + 1
 Loop Until isInStage2()=1
 
@@ -66,21 +66,39 @@ Call TapSkill (3, 0, 0) //长江3
 Call TapSkill (4, 1, 1) //CBA Q1
 Call TapSkill (7, 1, 1) //CBA Q2
 Call TapSkill (6, 1, 1) //CBA NP1
+Tap 65, 1857
+Delay 161
 Call ClickAttack()
-Call UseCards(6,1,2)
+Call RedFirst_NP(6, 1)
 Delay 17201
 Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
 Delay 500
 t = t + 1
+If isInStage2() = 1 Then 
+	Call ClickAttack()
+	Call RedCardsFirst()
+	Delay 8201
+	Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
+	Delay 500
+	t = t + 1	
+End If
 
+Delay 121
 Call TapSkill (5, 0, 0) //CBA降防
 Call TapSkill (8, 0, 0) //CBA降防
 Call TapSkill (9, 1, 1) //CBA NP2
 Call MasterSkill_OneUp(1, 2)	//加宝具威力
-Delay 100
+Tap 65,1481
+Delay 161
 Call ClickAttack()
-Call UseCards(6,1,2)
-Delay 17001
+Call RedFirst_NP(6, 1)
+Delay 30001
+If CmpColor(SkillJudgeX, SkillJudgeY, SkillJudgeColor, 0.98) <> -1 Then 
+	Delay 201
+	Call ClickAttack()
+    Call Advantage(1)
+    Delay 12001
+End If
 Call EndBattle(EatApple, 400, 669)
 
 Function FocusOn(TargetPlace)
@@ -880,7 +898,7 @@ Function Advantage(TargetPlace)
 	ElseIf CoreRed = 1 Or CoreBlue = 1 Or CoreGreen = 1 Then
 		If CoreRed = redSum And CoreRed = 1 Then 
 			For i = 0 To 4
-				If (svts(i) = 1) Then 
+				If (svts(i) = 1 And cards(i) = red) Then 
 					use(0) = i + 1
 					Exit For
 				End If
@@ -1551,9 +1569,10 @@ End Function
 Function EndBattle(apple, x, y)
     //打完本的收尾工作
     //Delay 15000
-    While (CmpColor(1015,325, "967D72", 0.99) <> 0)
+    Dim xx, yy
+    While FindPic(0,0,0,0, "Attachment:Next.png", "000000", 0, 0.73, xx, yy)  <> 0 //(CmpColor(1015,325, "967D72", 0.98) <> 0)
         Tap 1014, 38
-        Delay 20
+        Delay 121
     Wend
     Delay 500
     Tap 1014, 38
