@@ -5,15 +5,19 @@
 
 ### 按键精灵手机助手 FGO自动战斗脚本
 
-Update On 2019-10-26
-Add FocusOn, which can arrange normal attack more reasonable on some enemies with more HPs. You should snap a Core Servant's Command Card Portrait and assign it to Variable: Core. 
-
-------------
-FGO一定要没严重汉化的安装包(1.45.1)。可选安卓模拟器：雷电，较为旧版本的逍遥安卓。设置长1080，宽1920，dpi288
+已适配被严重汉化的1.55版FGO。可选安卓模拟器：雷电，较为旧版本的逍遥安卓（见Release）。设置长1080，宽1920，dpi288
 
 启动按键精灵与fgo后，请手动翻转屏幕2次（即180°旋转）。库函数用途多在函数定义处有描述。
 
-当前Lib的行动逻辑为：助战=满破CKT礼装的CBA，前场狂阶兰斯洛特+CBA×2。一面FocusOn法平A，二面魔力逆流+CBA绿魔放+兰斯洛特宝具，三面御主极低服buff+CBA降防+兰斯洛特宝具
+当前Lib的行动逻辑为：助战=满破午餐，前场浅上藤乃+杀生院+杀阶尼托克丽丝。前2面Advantage平A，三面等ssy1技能CD好了就加满buff宝具三连。
+
+------------
+
+Update On 2019-11-08
+New FGO(V1.55), New branch. Compatible for severe Simplified Chinese FGO.
+
+Update On 2019-10-26
+Add FocusOn, which can arrange normal attack more reasonable on some enemies with more HPs. You should snap a Core Servant's Command Card Portrait and assign it to Variable: Core. 
 
 Update On 2019-04-03: Adapt to FGO Client, Version 1.45.1
 
