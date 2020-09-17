@@ -54,18 +54,12 @@ Call TapSkill (7, 1, 1)	//孔明1技能
 Dim t=1
 Do
 	Call ClickAttack()
-	
-	If NPok = 0 Then 
-		Call MustUseThisCard(Svt, Color)
-	Else 
-		Call RedCardsFirst()
-	End If
-	
+	Call RedCardsFirst()
 	Delay 10000
 	Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
 	Delay 500
 	t=t+1
-Loop Until isInStage2()=1
+Loop Until isInStage2() = 1
 
 Call TapSkill (9, 0, 0)	//孔明3技能
 Call ClickAttack()
@@ -75,7 +69,7 @@ Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
 Delay 500
 
 Call TapSkill (2, 0, 0)	//剑龙2技能
-Call MasterSkill_OneUp(1, 2)	//加宝具威力
+Call MasterSkill_OneUp(1,2)
 Call TapSkill (6, 0, 0)	//玛尔达3技能
 Call ClickAttack()
 Call RedFirst_NP(6, 1)	//剑龙宝具
@@ -308,7 +302,7 @@ Function FocusOn(TargetPlace)
 		//找别的卡
 		For i = 0 To 4
 			If (use(0) <> i+1 And use(2) <> i+1) Then 
-				If (cards(i) = green And cards(use(1)-1)=0) Then 
+				If (cards(i) = green) Then 
 					use(1) = i + 1
 				ElseIf (cards(i) = blue And cards(use(1)-1)<>red) Then
 					use(1) = i + 1
@@ -330,7 +324,7 @@ Function FocusOn(TargetPlace)
 			//找别的卡
 			For i = 0 To 4
 				If (use(0) <> i+1 And use(2) <> i+1) Then 
-					If (cards(i) = green And cards(use(1)-1)=0) Then 
+					If (cards(i) = green) Then 
 						use(1) = i + 1
 					ElseIf (cards(i) = blue And cards(use(1)-1)<>red) Then
 						use(1) = i + 1
@@ -370,7 +364,7 @@ Function FocusOn(TargetPlace)
 			//找别的卡
 			For i = 0 To 4
 				If (use(0) <> i+1 And use(2) <> i+1) Then 
-					If (cards(i) = green And cards(use(1)-1)=0) Then 
+					If (cards(i) = green) Then 
 						use(1) = i + 1
 					ElseIf (cards(i) = blue And cards(use(1)-1)<>red) Then
 						use(1) = i + 1
@@ -767,7 +761,7 @@ Function Advantage(TargetPlace)
 			//TracePrint i
 			If (use(0) <> i + 1 And use(2) <> i + 1) Then 
 				//TracePrint cards(use(1)-1),"=",red,"  ",cards(i),"=",blue
-				If (cards(i) = green And cards(use(1)-1)=0) Then 
+				If (cards(i) = green) Then 
 					use(1) = i + 1
 				ElseIf (cards(i) = blue And cards(use(1)-1) <> red) Then
 					use(1) = i + 1
@@ -789,7 +783,7 @@ Function Advantage(TargetPlace)
 			//找别的卡
 			For i = 0 To 4
 				If (use(0) <> i+1 And use(2) <> i+1) Then 
-					If (cards(i) = green And cards(use(1)-1)=0) Then 
+					If (cards(i) = green) Then 
 						use(1) = i + 1
 					ElseIf (cards(i) = blue And cards(use(1)-1)<>red) Then
 						use(1) = i + 1
@@ -829,7 +823,7 @@ Function Advantage(TargetPlace)
 			//找别的卡
 			For i = 0 To 4
 				If (use(0) <> i+1 And use(2) <> i+1) Then 
-					If (cards(i) = green And cards(use(1)-1)=0) Then 
+					If (cards(i) = green) Then 
 						use(1) = i + 1
 					ElseIf (cards(i) = blue And cards(use(1)-1)<>red) Then
 						use(1) = i + 1
@@ -1560,6 +1554,10 @@ Function EndBattle(apple, x, y)
     Tap 1014, 38
     Delay 2000
     Tap 1014, 38
+    Delay 1700
+    Tap 849,1100	// 不连续出击
+    Delay 800
+    Tap 849,1100	// 不连续出击 backup
     Do Until (CmpColor(x,y, "FFFFFF", 0.99) = 0/*白字21AP*/ or CmpColor(39,1484,"9EF7F7",0.95) = 0/*礼装掉落*/)
         //Tap 898,1212	//不申请野生助战
         Tap 61,330
