@@ -1573,6 +1573,10 @@ Function EndBattle(apple, x, y)
         End If
         If CmpColor(974,1469, "2195AA", 0.98) = 0 Then 
             Tap 934, 1430
+            Delay 1700
+            Tap 849,1100	// 不连续出击
+    		Delay 800
+    		Tap 849,1100	// 不连续出击 backup
         End If
         Delay 700
     Loop

@@ -3,15 +3,30 @@
 
 ### 按键精灵手机助手 FGO自动战斗脚本
 
-已适配被严重汉化的1.55版FGO。可选安卓模拟器：雷电，较为旧版本的逍遥安卓（见Release）。设置长1080，宽1920，dpi288
+可选安卓模拟器：最新版雷电，最新版逍遥安卓(android 5.1 image)。设置长1080，宽1920，dpi288
 
 启动按键精灵安卓版与fgo后，请手动翻转屏幕2次（即180°旋转）。库函数用途多在函数定义处有描述。
 
-当前Lib的行动逻辑为：助战=满破午餐，前场浅上藤乃+杀生院+杀阶尼托克丽丝。前2面Advantage平A，三面等ssy1技能CD好了就加满buff宝具三连。
+当前Lib的行动逻辑为：助战=满破午茶，前场小黑+段藏+虞美人。前2面Advantage平A，三面等小黑1技能CD好了就加满buff宝具三连。
+
+常用附件：cardok.png、zhi.png、blue/red/green.png、Next.png、UseItem.png、特定从者\礼装组合的助战识别用图
 
 > PS：按键精灵手机助手是IDE，按键精灵安卓版是脚本执行器，与按键精灵PC版几乎没有任何关系
 
+Android Simulator: ldplayer, MEMU(use its android 5.1 image). set length=1080, width=1920, dpi=288. (phone simulation)
+
+when AnJianJingLing in Android and FGO are ready, Flip the screen of the Android Simulator 180° by using its side buttons.
+
+The process of current latest \[Lib\] script: Tap, select assistant servant, start battle, Only Use Cards in Stage 1&2, Use 3 NPs only in Stage3.
+
+useful attachments: cardok.png(Function Wait4OK), zhi.png(Function Advantage)、blue/red/green.png(recognize card color)、Next.png(confirm a battle)、UseItem.png(whether to eat apples)
+
 ------------
+Update On 2020-10-19
+
++ Compatible for latest Simplified Chinese FGO(V2.61).
++ NO NEED for getting color from skills each time when making a new scipt! just add cardok.jpg in scipts, and use Function:Wait4OK instead of Function:Wait4NextOperation!
++ add switch for Function:FocusOn, to control whether to change target to kill. (parameter forced=1, never change; forced=0, automatically change if cards no so good)
 
 Update On 2019-11-08
 
