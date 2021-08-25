@@ -3,7 +3,8 @@ Dim OFF = 0        //关不关机
 Dim AppleY=488, AppleNo=2	/*吃的苹果的Y坐标，苹果种类从上往下1-4*/
 Dim SkillJudgePath="Attachment:cardok.png", xxx___=0, yyy___=0
 /*用于判断是否可以继续操作的图，攻击/Attack上部蓝色*/
-Dim lunchtimePath = "Attachment:lunchtime.png" //找的助战需要何种从者/礼装
+Dim paths = Array("Attachment:caber1.png", "Attachment:caber2.png", "Attachment:caber3.png", "Attachment:waver.png", "Attachment:lord.png", "Attachment:lord2.png")
+//找的助战需要何种从者/礼装
 Dim SkillX=862/*技能x坐标*/, MasterSkillX=467/*御主技能X坐标*/, SingleSkillChooseX=657/*单体技能选择己方从者时的X坐标*/
 Dim NPCardX=310, NormalCardX=845/*宝具卡普通卡的x坐标*/
 Dim times=9, similarity=0.6//找助战时的下拉次数和相似度
@@ -13,6 +14,7 @@ Dim red=1, blue=2, green=3//卡色代号
 KeepScreen True	//防止省电模式自动关屏
 //Thread.Start(chkFGOrunning)	//闪退对策
 //出本时可能会点到菜单，先消一下
+Dim sup_id = 0
 //Goto jj
 Delay 300
 Tap 70,332
@@ -32,11 +34,13 @@ If EatApple = True Then
     End If
 End If
 Delay 1700
-//找助战
-Call ChkValidSupport(lunchtimePath, times, similarity)
-//EndScript
-Tap 1027,141	//开始战斗
-Delay 12000		//等待加载
+sup_id = ChkValidSupport(times, similarity)		//找助战 切队伍
+TracePrint paths(sup_id)
+ChangeTeam(9)
+TouchDown 1027,141,  1	//开始战斗
+Delay 400
+TouchUp 1
+Delay 13000		//等待加载
 Call Wait4OK()
 Delay 500
 Rem jj
@@ -46,68 +50,115 @@ Dim Svt = "Attachment:jkblue.png", Color=blue
 //集中火力/克制相关
 Dim Core = "Attachment:zhi.png"
 Dim t = 1
-Dim t2=1
 
-Call TapSkill(3,0,0) //小黑充50
-Call TapSkill(7,0,0) //虞姬1
-Call MasterSkill_OneUp(1,3) //archer回避
-Call TapSkill(9,0,0) //虞姬3
-Do
-	Delay 100
+If sup_id < 3 Then	// caber
+	Call TapSkill(7,0,0) //caber1
+	Call TapSkill(8,1,2) //caber2充酒吞
+	Call TapSkill(2,0,0) //尼托2
+	Do
+		Delay 200
+		Call ClickAttack()
+    	Call Advantage(2)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Loop Until isInStage2()=1
+	
+	While t<4
+		Delay 200
+		Call ClickAttack()
+		Call Advantage(2)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Wend
 	Call ClickAttack()
-	Delay 300
-    Call Advantage(1)
-    Delay 12000
-    Call Wait4OK()
-    Delay 500
-    t = t + 1
-Loop Until isInStage2()=1
-
-Call MasterSkill_OneUp(1,1) //archer回血
-Do
-	Delay 100
-	If t2 = 2 Then 
-		Call TapSkill(5, 1, 1)
-	ElseIf t2 = 3 Then
-		Call TapSkill(6, 1, 1)
-	End If
-	Call ClickAttack()
-	Delay 300
-    Call Advantage(1)
-    Delay 12000
-    Call Wait4OK()
-    Delay 500
-    t = t + 1
-    t2=t2+1
-Loop Until isInStage2() <> 1
-
-Call TapSkill(1, 0, 0) //小黑回避
-While t < 7
 	Delay 200
+	Call UseCards(6,1,2)
+	Delay 9000
+	Call Wait4OK()
+	Delay 800
+	t = t + 1
+	
+	While t < 8
+		If t = 6 Then 
+			Call TapSkill(6,0,0) //酒吞加攻
+			Call TapSkill(9,1,1) //caber蓝放尼托	
+		ElseIf t = 7 Then 
+			Call TapSkill(7,0,0) //caber1
+			Call TapSkill(8,1,2) //caber2
+		End If
+		Delay 200
+		Call ClickAttack()
+		Call Advantage(3)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Wend
+	Call TapSkill(2,0,0) //尼托自充
+	Call MasterSkill_AllATKUp(1) //全体宝具+35%
+	Call TapSkill(5,0,0) //酒吞魔放
 	Call ClickAttack()
-    Call FocusOn(3, 1)
-    Delay 12000
-    Call Wait4OK()
-    Delay 500
-    t = t + 1
-Wend
-If t >= 7 Then 
-	Delay 300
-	Call TapSkill(3,0,0) //小黑充50
-	Call MasterSkill_OneUp(1,2) //极地服加攻
-	Call TapSkill(9,0,0) //虞姬3
+	Call UseCards(7,6,GetNotGreenCardId())
+Else 	// waver
+	Call TapSkill(8,0,0) //孔明2
+	Call TapSkill(7,1,2) //孔明1充酒吞
+	Call TapSkill(9,0,0) //孔明3
+	Call TapSkill(2,0,0) //尼托2
+	Do
+		Delay 200
+		Call ClickAttack()
+    	Call Advantage(2)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Loop Until isInStage2()=1
+	
+	While t<4
+		Delay 200
+		Call ClickAttack()
+		Call Advantage(2)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Wend
+	Call ClickAttack()
+	Delay 200
+	Call UseCards(6,1,2)
+	Delay 9000
+	Call Wait4OK()
+	Delay 800
+	t = t + 1
+	
+	While t < 8
+		If t = 6 Then 
+			Call TapSkill(6,0,0) //酒吞加攻
+		ElseIf t = 7 Then 
+			Call TapSkill(8,0,0) //孔明2
+			Call TapSkill(7,1,2) //孔明1充酒吞
+			Call TapSkill(9,0,0) //孔明3
+		End If
+		Delay 200
+		Call ClickAttack()
+		Call Advantage(3)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Wend
+	Call TapSkill(2,0,0) //尼托自充
+	Call MasterSkill_AllATKUp(1) //全体宝具+35%
+	Call TapSkill(5,0,0) //酒吞魔放
+	Call ClickAttack()
+	Call UseCards(7,6,GetNotGreenCardId())
 End If
-Delay 400
-Call TapSkill(2,0,0) //小黑2
-Call TapSkill(4,0,0) //段藏魔放
-Call TapSkill(8,0,0) //虞姬强化解除耐性
-Call ClickAttack()
-Delay 200
-Tap 73, 1131
-Delay 100
-Call UseCards(6,7,8)
-Delay 49000
-Call EndBattle(EatApple, 330, 648)
+Delay 25000
+Call EndBattle(EatApple, 330,663)
 
 Function FocusOn(TargetPlace, forced)
 	/* 集中火力平A 若有Core的多张卡 则去打大怪，否则打其他小怪 */
@@ -979,7 +1030,33 @@ Function Advantage(TargetPlace)
 	Call UseCards(use(0), use(1), use(2))
 End Function
 
+Function GetNotGreenCardId()
+    KeepCapture 
+    If IdentifyCardColor(1920, Y12) <> green Then
+    	GetNotGreenCardId = 1
+    ElseIf IdentifyCardColor(Y12, Y23) <> green Then
+    	GetNotGreenCardId = 2
+    ElseIf IdentifyCardColor(Y23, Y34) <> green Then
+    	GetNotGreenCardId = 3
+    ElseIf IdentifyCardColor(Y34, Y45) <> green Then
+    	GetNotGreenCardId = 4
+    Else
+    	GetNotGreenCardId = 5
+    End If
+    ReleaseCapture 
+    Exit Function
+End Function
 
+Function ChangeTeam(TeamId)
+	Dim TeamY = Array(1130, 1091, 1055, 1016, 980, 940, 905, 865, 830, 790)
+	Dim _r, _g, _b
+	GetPixelRGB 73, TeamY(TeamId-1), _r, _g, _b
+	If _b > 75 Then 
+		Delay 800
+		Tap 73, TeamY(TeamId-1)
+		Delay 1700
+	End If	
+End Function
 
 //本脚本是以手机右侧为横屏后fgo屏幕下方为基准制作的
 Function Slide1PageSupport()
@@ -993,26 +1070,43 @@ Function Slide1PageSupport()
     Delay 65
 End Function
 
-Function ChkValidSupport(PicPath, times, sim)
+Function ChkValidSupport(times, sim)
 /* Pic为查找的图片名，以Attachment:开头
  * 翻页times次后，点刷新助战。sim为相似度，试了试大概0.6很好
  */
-    Dim support=-1, i=0, x1, y1, LastRenewTime=0
+    Dim support=-1, i=0, j=0, pic_index=0, p="", x1, y1, LastRenewTime=0
     While True
-        While i <= times
-            support = FindPic(0,0,0,0/*244, 1594, 1079, 1852*/, PicPath, "000000", 3, sim, x1, y1)
-            If support=0 Then 
-                Tap x1 - 25, y1 -25
-                Delay 3000
-                Exit Function
-            ElseIf (support<>0 And i=times) then
-                Exit While
-            Else
-                Call Slide1PageSupport()
-                Delay 800
-                i = i + 1
-            End If
-        Wend
+    	For j = 0 To 1
+    		//Tap 266, 59		// 回到页首
+        	Delay 100
+        	If j = 0 Then 
+        		//Tap 196, 1268	// 选术阶
+        	Else 
+        		//Tap 194, 1781	// 选all
+        	End If
+    		Delay 100
+    		i = 0
+        	While i <= times
+        		For pic_index=0 To UBound(paths)
+        			support = FindPic(0, 0, 0, 0, paths(pic_index), "000000", 3, sim, x1, y1)
+        			If support = 0 Then 
+        				Exit For
+        			End If
+        		Next
+            	If support=0 Then 
+                	Tap x1 - 25, y1 -25
+                	Delay 3000
+                	ChkValidSupport = pic_index
+                	Exit Function
+            	ElseIf (support<>0 And i=times) then
+                	Exit While
+            	Else
+                	Call Slide1PageSupport()
+                	Delay 800
+                	i = i + 1
+            	End If
+        	Wend
+    	Next
         //刷新助战
         While Time()-LastRenewTime < 10
             Delay 1
@@ -1022,7 +1116,6 @@ Function ChkValidSupport(PicPath, times, sim)
         Delay 500
         Tap 878,500	//确认刷新助战
         Delay 3000
-        i = 0
         LastRenewTime = Time()
     Wend
 End Function

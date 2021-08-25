@@ -1,85 +1,163 @@
-Dim EatApple=/*True*/False//吃不吃果？
+Dim EatApple=/*True///*/False//吃不吃果？
 Dim OFF = 0        //关不关机
 Dim AppleY=488, AppleNo=2	/*吃的苹果的Y坐标，苹果种类从上往下1-4*/
-Dim SkillJudgeX=877, SkillJudgeY=719, SkillJudgeColor="052653|0A4CA7"
-/*用于判断是否可以继续操作的技能坐标及颜色信息*/
-Dim lunchtimePath = "Attachment:FindLunchtime.png" //找的助战需要何种从者/礼装
+Dim SkillJudgePath="Attachment:cardok.png", xxx___=0, yyy___=0
+/*用于判断是否可以继续操作的图，攻击/Attack上部蓝色*/
+Dim paths = Array("Attachment:caber1.png", "Attachment:caber2.png", "Attachment:caber3.png", "Attachment:waver.png", "Attachment:lord.png", "Attachment:lord2.png")
+//找的助战需要何种从者/礼装
 Dim SkillX=862/*技能x坐标*/, MasterSkillX=467/*御主技能X坐标*/, SingleSkillChooseX=657/*单体技能选择己方从者时的X坐标*/
 Dim NPCardX=310, NormalCardX=845/*宝具卡普通卡的x坐标*/
-Dim times=4, similarity=0.6//找助战时的下拉次数和相似度
+Dim times=9, similarity=0.6//找助战时的下拉次数和相似度
 Dim CardClassifyX = 500//用于判断卡色
 Dim Y12 = 1540, Y23 = 1140, Y34 = 740, Y45 = 340//分割各普通卡的y坐标
 Dim red=1, blue=2, green=3//卡色代号
 KeepScreen True	//防止省电模式自动关屏
-Thread.Start(chkFGOrunning)	//闪退对策
+//Thread.Start(chkFGOrunning)	//闪退对策
 //出本时可能会点到菜单，先消一下
+Dim sup_id = 0
 //Goto jj
 Delay 300
 Tap 70,332
-Delay 100
+Delay 1700
 
 //进本
 Tap 302, 210
 Delay 700
 If EatApple = True Then 
-	Dim xx, yy
-	If FindPic(0,0,0,0, "Attachment:UseItem.png", "000000", 0, 0.7, xx, yy) = 0 Then 
-		Dim AppleX = GetEatAppleX(AppleNo)
-		Tap AppleX, AppleY //点苹果
-		Delay 3500	//留长一点，方便手动更改吃什么苹果
-		Tap 846,662	//确认吃苹果
-		Delay 1500
-	End If
+    Dim xx, yy
+    If FindPic(0,0,0,0, "Attachment:UseItem.png", "000000", 0, 0.7, xx, yy) = 0 Then 
+        Dim AppleX = GetEatAppleX(AppleNo)
+        Tap AppleX, AppleY //点苹果
+        Delay 3500	//留长一点，方便手动更改吃什么苹果
+        Tap 846,662	//确认吃苹果
+        Delay 1500
+    End If
 End If
-Delay 600
-//找助战
-Call ChkValidSupport(lunchtimePath, times, similarity)
-//EndScript
-Tap 1027,141	//开始战斗
-Delay 11000		//等待加载
-Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
+Delay 1700
+sup_id = ChkValidSupport(times, similarity)		//找助战 切队伍
+//TracePrint paths(sup_id)
+If sup_id < 3 Then	// caber
+	ChangeTeam (8)
+Else 
+	ChangeTeam (7)  // waver
+End If
+TouchDown 1027,141,  1	//开始战斗
+Delay 400
+TouchUp 1
+Delay 13000		//等待加载
+Call Wait4OK()
 Delay 500
-//Rem jj
+Rem jj
 
 Dim NPok = 0
-Dim Svt = "Attachment:madablue.png", Color=blue
+Dim Svt = "Attachment:jkblue.png", Color=blue
 //集中火力/克制相关
 Dim Core = "Attachment:zhi.png"
+Dim t = 1
 
-Tap 75,1493
-Delay 200
-Call TapSkill (8, 0, 0)	//孔明2技能
-Call TapSkill (1, 0, 0)
-Call TapSkill (7, 1, 2)	//孔明1技能
-
-Dim t=1
-Do
+If sup_id < 3 Then	// caber
+	Call TapSkill(7,0,0) //caber1
+	Call TapSkill(8,1,2) //caber2充齐格
+	Call MasterSkill_OneUp(3, 3) // caber减cd
+	Call TapSkill(6,0,0) //齐格3
+	Do
+		Delay 200
+		Call ClickAttack()
+    	Call Advantage(2)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Loop Until isInStage2()=1
+	
+	While t<5
+		Delay 200
+		Call ClickAttack()
+		If t = 4 Then 
+			Call Advantage(3)	// 最右血最厚
+		Else 
+			Call Advantage(2)
+		End If
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Wend
+	Call TapSkill(3,0,0) //姑姑解NP率down
+	Call TapSkill(8,1,2) //caber2充齐格
+	Call TapSkill(9,1,2) //caber3 蓝放
+	Call TapSkill(4,0,0) //齐格1
 	Call ClickAttack()
-	Call RedCardsFirst()
-	Delay 10000
-	Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
-	Delay 500
-	t=t+1
-Loop Until isInStage2() = 1
+	Delay 200
+	Call UseCards(7,1,2) //回收36
+	Delay 9000
+	Call Wait4OK()
+	Delay 800
+	t = t + 1
+	
+	Call TapSkill(7,0,0) //caber1
+	Call TapSkill(2,0,0) //姑姑降防
+	While t < 7
+		Delay 200
+		Call ClickAttack()
+		Call Advantage(3)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Wend
+	Call TapSkill(1,0,0) //姑姑自充
+	Call TapSkill(6,0,0) //齐格自充30
+	Call TapSkill(5,0,0) //齐格魔放
+	Call ClickAttack()
+	Call UseCards(7,6,GetNotGreenCardId())
+Else 	// waver
+	Call TapSkill(8,0,0) //孔明2
+	Call TapSkill(7,1,2) //孔明1充齐格
+	Do
+		Delay 200
+		Call ClickAttack()
+    	Call Advantage(2)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Loop Until isInStage2()=1
 
-Call TapSkill (9, 0, 0)	//孔明3技能
-Call TapSkill (2, 0, 0)
-Call ClickAttack()
-Call UseCards(6, 2, 1)	//2号从者宝具
-Delay 13000
-Call Wait4NextOperation(SkillJudgeX, SkillJudgeY, SkillJudgeColor)
-Delay 500
+	Call TapSkill(3,0,0) //姑姑解NP率down
+	Call TapSkill(9,0,0) //孔明3
+	Call TapSkill(4,0,0) //齐格1
+	Call ClickAttack()
+	Delay 200
+	Call UseCards(7,1,2) //回收36
+	Delay 9000
+	Call Wait4OK()
+	Delay 800
+	t = t + 1
+	
+	While t < 6
+		Delay 200
+		Call ClickAttack()
+		Call Advantage((t Mod 2)*2+1)
+    	Delay 9000
+    	Call Wait4OK()
+    	Delay 800
+    	t = t + 1
+	Wend
+	Call TapSkill(1,0,0) //姑姑自充
+	Call MasterSkill_AllATKUp(1) //全体宝具UP
+	Call TapSkill(2,0,0) //姑姑降防
+	Call TapSkill(6,0,0) //齐格自充30
+	Call MasterSkill_OneUp(2,2) //御主10充齐格
+	Call TapSkill(7,1,2) //孔明充齐格30
+	Call TapSkill(5,0,0) //齐格魔放
+	Call ClickAttack()
+	Call UseCards(7,6,1)
+End If
+Delay 25000
+Call EndBattle(EatApple, 397,663)
 
-Call TapSkill (4, 0, 0)	//
-Call MasterSkill_OneUp(2,1)
-Call TapSkill (3, 0, 0)
-Call ClickAttack()
-Call RedFirst_NP(7, 1)	//剑龙宝具
-Delay 16000
-Call EndBattle(EatApple, 330, 648)
-
-
-Function FocusOn(TargetPlace)
+Function FocusOn(TargetPlace, forced)
 	/* 集中火力平A 若有Core的多张卡 则去打大怪，否则打其他小怪 */
 	//这里是狂黑贞+齐格刷炉心
 	//Dim Core = "Attachment:JAB.png"
@@ -128,7 +206,7 @@ Function FocusOn(TargetPlace)
     TracePrint CoreCardColor(0), CoreCardColor(1), CoreCardColor(2), CoreCardColor(3), CoreCardColor(4)
     //大怪位置左到右1 2 3，决定了在不打大怪的时候选什么位置的小怪，优先中间，没有就选最左
 	//1 65,1857 || 2 65,1481 || 3 73,1131
-	If CoreRed+CoreBlue+CoreGreen<2
+	If CoreRed + CoreBlue + CoreGreen < 2 And forced = 0 Then 
 		Delay 100
 		If TargetPlace = 1 Then 
 			Tap 73, 1131
@@ -509,6 +587,9 @@ Function Advantage(TargetPlace)
 		Tap 73,1131
 	End If
 	//克制的三色卡的各自数量
+	Delay 200
+	//Tap 5,5 // 现在点已经选中的会弹出buff框框 用这个消除
+	Delay 100
     KeepCapture
     cards(0) = IdentifyCardColor(1920, Y12)
     cards(1) = IdentifyCardColor(Y12, Y23)
@@ -946,7 +1027,33 @@ Function Advantage(TargetPlace)
 	Call UseCards(use(0), use(1), use(2))
 End Function
 
+Function GetNotGreenCardId()
+    KeepCapture 
+    If IdentifyCardColor(1920, Y12) <> green Then
+    	GetNotGreenCardId = 1
+    ElseIf IdentifyCardColor(Y12, Y23) <> green Then
+    	GetNotGreenCardId = 2
+    ElseIf IdentifyCardColor(Y23, Y34) <> green Then
+    	GetNotGreenCardId = 3
+    ElseIf IdentifyCardColor(Y34, Y45) <> green Then
+    	GetNotGreenCardId = 4
+    Else
+    	GetNotGreenCardId = 5
+    End If
+    ReleaseCapture 
+    Exit Function
+End Function
 
+Function ChangeTeam(TeamId)
+	Dim TeamY = Array(1130, 1091, 1055, 1016, 980, 940, 905, 865, 830, 790)
+	Dim _r, _g, _b
+	GetPixelRGB 73, TeamY(TeamId-1), _r, _g, _b
+	If _b > 75 Then 
+		Delay 800
+		Tap 73, TeamY(TeamId-1)
+		Delay 1700
+	End If	
+End Function
 
 //本脚本是以手机右侧为横屏后fgo屏幕下方为基准制作的
 Function Slide1PageSupport()
@@ -960,15 +1067,71 @@ Function Slide1PageSupport()
     Delay 65
 End Function
 
-Function ChkValidSupport(PicPath, times, sim)
+Function ChkValidSupport(times, sim)
 /* Pic为查找的图片名，以Attachment:开头
  * 翻页times次后，点刷新助战。sim为相似度，试了试大概0.6很好
+ */
+    Dim support=-1, i=0, j=0, pic_index=0, p="", x1, y1, LastRenewTime=0
+    While True
+    	For j = 0 To 1
+    		//Tap 266, 59		// 回到页首
+        	Delay 100
+        	If j = 0 Then 
+        		//Tap 196, 1268	// 选术阶
+        	Else 
+        		//Tap 194, 1781	// 选all
+        	End If
+    		Delay 100
+    		i = 0
+        	While i <= times
+        		For pic_index=0 To UBound(paths)
+        			support = FindPic(0, 0, 0, 0, paths(pic_index), "000000", 3, sim, x1, y1)
+        			If support = 0 Then 
+        				Exit For
+        			End If
+        		Next
+            	If support=0 Then 
+                	Tap x1 - 25, y1 -25
+                	Delay 3000
+                	ChkValidSupport = pic_index
+                	Exit Function
+            	ElseIf (support<>0 And i=times) then
+                	Exit While
+            	Else
+                	Call Slide1PageSupport()
+                	Delay 800
+                	i = i + 1
+            	End If
+        	Wend
+    	Next
+        //刷新助战
+        While Time()-LastRenewTime < 10
+            Delay 1
+        Wend
+        Delay 200
+        Tap 153,596
+        Delay 500
+        Tap 878,500	//确认刷新助战
+        Delay 3000
+        LastRenewTime = Time()
+    Wend
+End Function
+
+Function ChkValidSupportSkill(PicPath, times, sim)
+/* Pic为查找的图片名，以Attachment:开头
+ * 翻页times次后，点刷新助战。sim为相似度，试了试大概0.6很好
+ * 加入了对技能等级的判断
  */
     Dim support=-1, i=0, x1, y1, LastRenewTime=0
     While True
         While i <= times
             support = FindPic(0,0,0,0/*244, 1594, 1079, 1852*/, PicPath, "000000", 3, sim, x1, y1)
-            If support=0 Then 
+            If support = 0 Then 
+            	// 判断技能等级是否全10，颜色FFFFFF
+            	// 范围1 x1+200,617;x1+200,660
+            	// 范围2 x1+200,500;x1+200,544
+            	// 范围3 x1+200,385;x1+200,427
+            
                 Tap x1 - 25, y1 -25
                 Delay 3000
                 Exit Function
@@ -1034,15 +1197,15 @@ Function TapSkill(SkillPlace, isSingle, ServantPlace)
         Tap SingleSkillChooseX, SingleSkillY
         Delay 200
     End If
-    Wait4NextOperation SkillJudgeX, SkillJudgeY, SkillJudgeColor
+    /*Wait4NextOperation SkillJudgeX, SkillJudgeY, SkillJudgeColor*/
+    Call Wait4OK()
     Delay 100
 End Function
 
-Function Wait4NextOperation(X, Y, Color)
-    //等待技能/宝具/出卡完毕
-    Delay 1000
-    While CmpColor(X, Y, Color, 0.98) = -1
-        delay 1
+Function Wait4OK()
+	Delay 1000
+    While FindPic(787, 111, 852, 323, SkillJudgePath, "000000", 3, 0.7, xxx___, yyy___) <> 0
+    	Delay 9
     Wend
     delay 1
 End Function
@@ -1080,7 +1243,8 @@ Function MasterSkill_AllATKUp(MasterSkillNo)
     Dim MasterSkillY = GetMasterSkillY(MasterSkillNo) 
     Tap MasterSkillX, MasterSkillY
     Delay 500
-    Wait4NextOperation SkillJudgeX, SkillJudgeY, SkillJudgeColor
+    /*Wait4NextOperation SkillJudgeX, SkillJudgeY, SkillJudgeColor*/
+    Call Wait4OK()
     Delay 100
 End Function
 
@@ -1096,7 +1260,8 @@ Function MasterSkill_OneUp(ServantNo, MasterSkillNo)
     //点从者
     Dim SingleSkillY = SingleSkillY3choose1(ServantNo)
     Tap SingleSkillChooseX, SingleSkillY
-    Wait4NextOperation SkillJudgeX, SkillJudgeY, SkillJudgeColor
+    /*Wait4NextOperation SkillJudgeX, SkillJudgeY, SkillJudgeColor*/
+    Call Wait4OK()
     Delay 100
 End Function
 
@@ -1130,14 +1295,15 @@ Function MasterSkill_ChangeServant(front, back)
     Delay 200
     Tap 944,965		//点确定
     Delay 500
-    Wait4NextOperation SkillJudgeX, SkillJudgeY, SkillJudgeColor
+    /*Wait4NextOperation SkillJudgeX, SkillJudgeY, SkillJudgeColor*/
+    Call Wait4OK()
     Delay 100
 End Function
 
 Function ClickAttack()
     //出卡前点Attack
     Tap 904,217		//点attack
-    Delay 2200
+    Delay 2500
 End Function
 
 Function UseCards(card1, card2, card3)
@@ -1570,6 +1736,7 @@ Function EndBattle(apple, x, y)
                 If OFF=1 Then
                     Device.PowerOff()
                 End If
+                Delay 1700
                 EndScript
             End If
         End If
@@ -1579,8 +1746,9 @@ Function EndBattle(apple, x, y)
             Tap 849,1100	// 不连续出击
     		Delay 800
     		Tap 849,1100	// 不连续出击 backup
+            Delay 11000
         End If
-        Delay 700
+        Delay 1700
     Loop
     If CmpColor(39,1484,"9EF7F7",0.95) = 0 Then 
         Tap 62, 1861
