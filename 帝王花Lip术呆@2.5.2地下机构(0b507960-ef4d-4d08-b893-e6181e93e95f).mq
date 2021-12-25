@@ -41,7 +41,7 @@ ChangeTeam(9)
 TouchDown 1027,141,  1	//开始战斗
 Delay 600
 TouchUp 1
-Delay 13000		//等待加载
+Delay 7000		//等待加载
 Call Wait4OK()
 Delay 500
 Rem jj
@@ -52,7 +52,6 @@ Dim Svt = "Attachment:jkblue.png", Color=blue
 Dim Core = "Attachment:zhi.png"
 Dim t = 1
 
-//If sup_id < 3 Then   // caber
 Call TapSkill(7,0,0)
 Call TapSkill(8,1,2)
 Call MasterSkill_OneUp(3,3) //术呆&减cd
@@ -66,9 +65,9 @@ Do
 	Delay 300
 	Call ClickAttack()
 	Call RedCardsFirst()
-	Delay 9000
+	Delay 5000
 	Call Wait4OK()
-	Delay 800
+	Delay 500
 	t = t+1
 Loop Until isInStage2() = 1
 
@@ -77,65 +76,30 @@ Do
 	Delay 300
 	Call ClickAttack()
 	Call RedCardsFirst()
-	Delay 9000
+	Delay 5000
 	Call Wait4OK()
-	Delay 800
+	Delay 500
 	t=t+1
 Loop Until t > 4
 Call TapSkill(7,0,0)
 Call TapSkill(8,1,2)
-/*Else	// waver 
-	Call TapSkill(7,1,2)
-	Call TapSkill(8,0,0)
-	Call TapSkill(9,0,0)
-	Call MasterSkill_OneUp(3,3) //孔明&减cd
-	Call TapSkill(1,0,0) //Lip
-	Call TapSkill(2,0,0)
-	Call TapSkill(3,0,0)	
-	Call TapSkill(6,0,0) //帝王花
-	Call TapSkill(5,0,0)
-	Call TapSkill(4,0,0)
-	Do
-		Delay 300
-		Call ClickAttack()
-		Call RedCardsFirst()
-		Delay 9000
-		Call Wait4OK()
-		Delay 800
-		t = t+1
-	Loop Until isInStage2() = 1
-	
-	Delay 100
-	Do
-		Delay 300
-		Call ClickAttack()
-		Call FocusOn(3,1)
-		Delay 9000
-		Call Wait4OK()
-		Delay 800
-		t=t+1
-	Loop Until t > 4
-	Call TapSkill(7,1,2)
-	Call TapSkill(8,0,0)
-	Call TapSkill(9,0,0)
-End If*/
+
 Call TapSkill(6,0,0)
 Call ClickAttack()
 Delay 400
 Call RedFirst_NP(7,1)
-Delay 13000
+Delay 5000
 Call Wait4OK()
-Delay 800
+Delay 500
 
 Tap 65, 1857
 Delay 300
 Call ClickAttack()
 Call RedCardsFirst()
-Delay 9000
+Delay 5000
 Call Wait4OK()
-Delay 800
+Delay 500
 t = t+1
-
 Call TapSkill(5,0,0)
 Call TapSkill(1,0,0) //Lip
 Call TapSkill(2,0,0)
@@ -1665,9 +1629,13 @@ Function TapSkill(SkillPlace, isSingle, ServantPlace)
 End Function
 
 Function Wait4OK()
-	Delay 1000
+	For 3
+		Tap 176, 176
+    	Delay 200
+	Next
     While FindPic(787, 111, 852, 323, SkillJudgePath, "000000", 3, 0.7, xxx___, yyy___) <> 0
-    	Delay 9
+    	Tap 176, 176
+    	Delay 200
     Wend
     delay 1
 End Function

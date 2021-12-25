@@ -1,1 +1,18 @@
-{"id":"0b507960-ef4d-4d08-b893-e6181e93e95f","Name":"帝王花Lip术呆@2.5.2地下机构","repeat":1,"duration":10,"setStatue":"RUN_REPEAT","scriptType":"ONOE","isFirst":false}
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 0,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 0,
+      ".mq" : 0,
+      ".prop" : 0,
+      ".rtd" : 0,
+      ".uip" : 0,
+      ".uis" : 0
+   },
+   "Name" : "帝王花Lip术呆@2.5.2地下机构",
+   "id" : "0b507960-ef4d-4d08-b893-e6181e93e95f"
+}

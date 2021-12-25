@@ -41,7 +41,7 @@ ChangeTeam(7)
 TouchDown 1027,141,  1	//开始战斗
 Delay 600
 TouchUp 1
-Delay 13000		//等待加载
+Delay 7000		//等待加载
 Call Wait4OK()
 Delay 500
 Rem jj
@@ -60,7 +60,7 @@ Do
 	Delay 300
 	Call ClickAttack()
 	Call LeastDamage(2)
-	Delay 9000
+	Delay 5000
 	Call Wait4OK()
 	Delay 800
 	t = t+1
@@ -82,7 +82,7 @@ Do
 		Delay 60
 	End If
 	Call LeastDamage(2)
-	Delay 9000
+	Delay 5000
 	Call Wait4OK()
 	Delay 800
 	t=t+1
@@ -1618,9 +1618,13 @@ Function TapSkill(SkillPlace, isSingle, ServantPlace)
 End Function
 
 Function Wait4OK()
-	Delay 1000
+	For 3
+		Tap 176, 176
+    	Delay 200
+	Next
     While FindPic(787, 111, 852, 323, SkillJudgePath, "000000", 3, 0.7, xxx___, yyy___) <> 0
-    	Delay 9
+    	Tap 176, 176
+    	Delay 200
     Wend
     delay 1
 End Function
