@@ -7,8 +7,6 @@
 
 启动按键精灵安卓版与fgo后，请手动翻转屏幕2次（即180°旋转）。库函数用途多在函数定义处有描述。
 
-当前Lib的行动逻辑为：助战=满破午茶，前场小黑+段藏+虞美人。前2面Advantage平A，三面等小黑1技能CD好了就加满buff宝具三连。
-
 常用附件：cardok.png、zhi.png、blue/red/green.png、Next.png、UseItem.png、特定从者\礼装组合的助战识别用图
 
 > PS：按键精灵手机助手是IDE，按键精灵安卓版是脚本执行器，与按键精灵PC版几乎没有任何关系
@@ -22,6 +20,12 @@ The process of current latest \[Lib\] script: Tap, select assistant servant, sta
 useful attachments: cardok.png(Function Wait4OK), zhi.png(Function Advantage)、blue/red/green.png(recognize card color)、Next.png(confirm a battle)、UseItem.png(whether to eat apples)
 
 ------------
+Update On 2021-12-25
+
++ Compatible for latest Simplified Chinese FGO 120fps version.
++ add Function: LeastDamage
+
+
 Update On 2020-10-19
 
 + Compatible for latest Simplified Chinese FGO(V2.61).
