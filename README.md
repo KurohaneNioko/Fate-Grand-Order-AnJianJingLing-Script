@@ -26,7 +26,7 @@ Update Since 2022 (2023-04-04)
 + Select support servants from EXTRA class (Oberon!)
 + add Function: ChangeTeam(t) t=1,2,...,10; select team before battle
 + add Function: getHPpercent(SvtPos) SvtPos=1,2,3; Binary search!
-+ TODO: UI for quick setting?
++ UI for instant control: support, questType(free21ap free22ap event40ap Yellow20ap), loop times, apple type, team No..
 
 
 Update On 2021-12-25
