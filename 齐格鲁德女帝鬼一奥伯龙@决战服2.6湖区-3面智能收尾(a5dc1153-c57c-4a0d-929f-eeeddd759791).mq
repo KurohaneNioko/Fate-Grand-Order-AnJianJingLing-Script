@@ -1,9 +1,16 @@
-Dim EatApple=/*True///*/False//吃不吃果？
+Dim EatApple= (Not ReadUIConfig("StartFromStage1")) And (ReadUIConfig("AppleType")<>0)    // /*True///*/False//吃不吃果？
 Dim OFF = 0        //关不关机
-Dim AppleY=488, AppleNo=2	/*吃的苹果的Y坐标，苹果种类从上往下1-4*/
+Dim AppleY=488, AppleNo=ReadUIConfig("AppleType")-CInt(ReadUIConfig("AppleType")>0)	/*吃的苹果的Y坐标，苹果种类从上往下1-4*/
 Dim SkillJudgePath="Attachment:cardok.png", xxx___=0, yyy___=0
 /*用于判断是否可以继续操作的图，攻击/Attack上部蓝色*/
-Dim paths = Array("Attachment:obr1.png", "Attachment:obr2.png")//, "Attachment:caber2.png", "Attachment:caber3.png")//, "Attachment:waver.png", "Attachment:lord.png", "Attachment:lord2.png")
+Dim paths
+If ReadUIConfig("SupportType") = 2 Then // 奥伯龙
+	paths = Array("Attachment:obr1.png", "Attachment:obr2.png")//, "Attachment:caber2.png", "Attachment:caber3.png")//, "Attachment:waver.png", "Attachment:lord.png", "Attachment:lord2.png")
+ElseIf ReadUIConfig("SupportType") = 1 // 活动C呆
+	paths = Array("Attachment:caber1p.png", "Attachment:caber2p.png", "Attachment:caber3p.png", "Attachment:caber4p.png")
+ElseIf ReadUIConfig("SupportType") = 0 // 午茶C呆
+	paths = Array("Attachment:caber1.png", "Attachment:caber2.png", "Attachment:caber3.png", "Attachment:caber4.png")
+End If	
 //找的助战需要何种从者/礼装
 Dim SkillX=862/*技能x坐标*/, MasterSkillX=467/*御主技能X坐标*/, SingleSkillChooseX=657/*单体技能选择己方从者时的X坐标*/
 Dim NPCardX=310, NormalCardX=845/*宝具卡普通卡的x坐标*/
@@ -15,13 +22,39 @@ Dim sup_id = 0
 KeepScreen True	//防止省电模式自动关屏
 //Thread.Start(chkFGOrunning)	//闪退对策
 //出本时可能会点到菜单，先消一下
-//Goto jj
+Dim QuestAP_X, QuestAP_Y, QuestType, QuestAP_Color = "0000E6"	// for EndBattle
+If ReadUIConfig("QuestType") = 0 Then // free21		324,663
+	QuestAP_X = 324
+	QuestAP_Y = 663
+	QuestType = "free21"
+ElseIf ReadUIConfig("QuestType") = 1 Then // free22		320,678
+	QuestAP_X = 320
+	QuestAP_Y = 678
+	QuestType = "free22"
+ElseIf ReadUIConfig("QuestType") = 2 Then // event40	390, 680
+	QuestAP_X = 390
+	QuestAP_Y = 680
+	QuestType = "event40"
+ElseIf ReadUIConfig("QuestType") = 1 Then // 20AP yellow  !!! TODO !!!
+	QuestAP_X = 0		
+	QuestAP_Y = 0
+	QuestType = "20APyellow"
+	QuestAP_Color = "000000"		//!!! TODO !!!
+End If
+//TracePrint QuestType, "EatApple =", EatApple, "AppleNo =", AppleNo, "Team =", ReadUIConfig("Team")+1
+//TracePrint paths(0)
+
+Dim loopTimes = CInt(ReadUIConfig("ExecTimes", 1))
+For loopTimes
+	Rem LOOP_START
+
+If ReadUIConfig("StartFromStage1") Then 
+	Goto jj
+End If
 Delay 300
 Tap 70,332
 Delay 1700
-
-//进本
-Tap 302, 210
+Tap 302, 210	//进本
 Delay 700
 If FindPic(0, 0, 0, 0, "Attachment:UseItem.png", "000000", 0, 0.7, xx, yy) = 0 Then 
     If EatApple = True Then 
@@ -37,11 +70,17 @@ If FindPic(0, 0, 0, 0, "Attachment:UseItem.png", "000000", 0, 0.7, xx, yy) = 0 T
 	End If
 End If
 Delay 5000
-Tap 195,968 // !!!点EX!!! ***************************************************
+If ReadUIConfig("SupportType") = 2 Then // 奥伯龙
+	Tap 195,968 		// !!!点EX!!! ***************************************************
+ElseIf ReadUIConfig("SupportType") = 1 // 活动C呆
+	Tap 189,1270
+ElseIf ReadUIConfig("SupportType") = 0 // 午茶C呆
+	Tap 189,1270
+End If
 Delay 400
 sup_id = ChkValidSupport(times, similarity)		//找助战 切队伍
-TracePrint paths(sup_id)
-ChangeTeam(8)
+//TracePrint paths(sup_id)
+ChangeTeam(ReadUIConfig("Team")+1)
 TouchDown 1027,141,  1	//开始战斗
 Delay 600
 TouchUp 1
@@ -55,7 +94,9 @@ Dim Svt = "Attachment:jkblue.png", Color=blue
 //集中火力/克制相关
 Dim Core = "Attachment:zhi.png"
 Dim t = 1, t2=1, Phase2NPUsed = 0
-
+// **************************  //
+// **** MODIFY FROM HERE **** //
+// **************************  //
 Call TapSkill(2,0,0) // 齐格鲁德2 强化后
 Call TapSkill(4,0,0) // 女帝1
 Call TapSkill(7,0,0) // 鬼一1&2
@@ -82,7 +123,6 @@ If getHPpercent(1) < getHPpercent(2) Then
 Else 
 	Call MasterSkill_OneUp(2,2) // 女帝回血
 End If
-
 If t <= 5 Then 
 	While t < 5
 		Delay 100
@@ -184,7 +224,36 @@ While True
 		Delay 8000
     End If
 Wend
-Call EndBattle(EatApple, 324,663)
+// **************************  //
+// **** MODIFY ENDS HERE **** //
+// **************************  //
+Call EndBattle() // if NOT EatApple, Script ends here.
+If ReadUIConfig("StartFromStage1") Then 
+	EndScript
+End If
+
+If ReadUIConfig("infLoop") Then 
+	Goto LOOP_START
+End If
+Next
+/*   Wise End for the last Stage
+While True
+	Tap 176, 176
+	Delay 200
+	If FindPic(0,0,0,0, "Attachment:Next.png", "000000", 0, 0.73, xxx___, yyy___) = 0 // Next
+	    Exit While
+	ElseIf FindPic(787, 111, 852, 323, SkillJudgePath, "000000", 3, 0.7, xxx___, yyy___) = 0 // Attack
+    	Call Wait4OK()
+		Delay 500
+		Call ClickAttack()
+		Delay 300
+		Call RedCardsFirst()
+		Delay 8000
+    End If
+Wend
+*/
+
+
 
 Function FocusOn(TargetPlace, forced)
 	/* 集中火力平A 若有Core的多张卡 则去打大怪，否则打其他小怪 */
@@ -2212,7 +2281,7 @@ Function GetCardX(CardNo)
     End Select
 End Function
 
-Function EndBattle(apple, x, y)
+Function EndBattle()
     //打完本的收尾工作
     //Delay 15000
     Dim xx, yy
@@ -2228,11 +2297,11 @@ Function EndBattle(apple, x, y)
     Tap 849,1100	// 不连续出击
     Delay 800
     Tap 849,1100	// 不连续出击 backup
-    Do Until (CmpColor(x,y, "FFFFFF", 0.99) = 0/*白字21AP*/ or CmpColor(39,1484,"9EF7F7",0.95) = 0/*礼装掉落*/)
+    Do Until (CmpColor(QuestAP_X, QuestAP_Y, "FFFFFF", 0.99) = 0/*白字21AP*/ or CmpColor(39,1484,"9EF7F7",0.95) = 0/*礼装掉落*/)
         //Tap 898,1212	//不申请野生助战
         Tap 61,330
-        If CmpColor(x,y, "0000E6", 0.98) = 0 Then
-            If (apple = True) Then 
+        If CmpColor(QuestAP_X, QuestAP_Y, QuestAP_Color, 0.98) = 0 Then
+            If (EatApple = True) Then 
                 Exit Do
             Else 
                 If OFF=1 Then
