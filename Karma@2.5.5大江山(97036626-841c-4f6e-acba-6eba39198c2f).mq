@@ -3,7 +3,7 @@ Dim OFF = 0        //关不关机
 Dim AppleY=488, AppleNo=2	/*吃的苹果的Y坐标，苹果种类从上往下1-4*/
 Dim SkillJudgePath="Attachment:cardok.png", xxx___=0, yyy___=0
 /*用于判断是否可以继续操作的图，攻击/Attack上部蓝色*/
-Dim paths = Array("Attachment:caber1.png", "Attachment:caber2.png", "Attachment:caber3.png")//, "Attachment:waver.png", "Attachment:lord.png", "Attachment:lord2.png")
+Dim paths = Array("Attachment:caber4.png", "Attachment:caber1.png", "Attachment:caber2.png", "Attachment:caber3.png")//, "Attachment:waver.png", "Attachment:lord.png", "Attachment:lord2.png")
 //找的助战需要何种从者/礼装
 Dim SkillX=862/*技能x坐标*/, MasterSkillX=467/*御主技能X坐标*/, SingleSkillChooseX=657/*单体技能选择己方从者时的X坐标*/
 Dim NPCardX=310, NormalCardX=845/*宝具卡普通卡的x坐标*/
@@ -23,16 +23,18 @@ Delay 1700
 //进本
 Tap 302, 210
 Delay 700
-If EatApple = True Then 
-    Dim xx, yy
-    If FindPic(0,0,0,0, "Attachment:UseItem.png", "000000", 0, 0.7, xx, yy) = 0 Then 
-        Delay 1100
-        Dim AppleX = GetEatAppleX(AppleNo)
-        Tap AppleX, AppleY //点苹果
-        Delay 3500	//留长一点，方便手动更改吃什么苹果
-        Tap 846,662	//确认吃苹果
-        Delay 1500
-    End If
+If FindPic(0, 0, 0, 0, "Attachment:UseItem.png", "000000", 0, 0.7, xx, yy) = 0 Then 
+    If EatApple = True Then 
+    	Dim xx, yy
+    	Delay 1100
+    	Dim AppleX = GetEatAppleX(AppleNo)
+    	Tap AppleX, AppleY //点苹果
+    	Delay 3500	//留长一点，方便手动更改吃什么苹果
+    	Tap 846,662	//确认吃苹果
+    	Delay 1500
+	Else 
+		EndScript
+	End If
 End If
 Delay 3300
 sup_id = ChkValidSupport(times, similarity)		//找助战 切队伍

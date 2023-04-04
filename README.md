@@ -20,6 +20,15 @@ The process of current latest \[Lib\] script: Tap, select assistant servant, sta
 useful attachments: cardok.png(Function Wait4OK), zhi.png(Function Advantage)、blue/red/green.png(recognize card color)、Next.png(confirm a battle)、UseItem.png(whether to eat apples)
 
 ------------
+Update Since 2022 (2023-04-04)
+
++ for latest Simplified Chinese FGO 30fps
++ Select support servants from EXTRA class (Oberon!)
++ add Function: ChangeTeam(t) t=1,2,...,10; select team before battle
++ add Function: getHPpercent(SvtPos) SvtPos=1,2,3; Binary search!
++ TODO: UI for quick setting?
+
+
 Update On 2021-12-25
 
 + Compatible for latest Simplified Chinese FGO 120fps version.
