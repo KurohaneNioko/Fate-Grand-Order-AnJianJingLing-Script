@@ -40,6 +40,10 @@ ElseIf ReadUIConfig("QuestType") = 3 Then // 20AP yellow
 	QuestAP_Y = 678
 	QuestType = "20APyellow"
 	//QuestAP_Color = "3CC1FF"
+ElseIf ReadUIConfig("QuestType") = 4 Then // Santa EX 5 items once
+	QuestAP_X = 399	
+	QuestAP_Y = 678
+	QuestType = "Santa5EX"
 End If
 //TracePrint QuestType, "EatApple =", EatApple, "AppleNo =", AppleNo, "Team =", ReadUIConfig("Team")+1
 //TracePrint paths(0)
@@ -102,33 +106,40 @@ Dim t = 1, t2=1, Phase2NPUsed = 0
 // **** MODIFY FROM HERE **** //
 // **************************  //
 Call TapSkill(2,0,0)
-Call TapSkill(1,0,0) 
-Call TapSkill(3,0,0) // Ë®åÈÄ¦
-Call MasterSkill_OneUp(1,1)
-Call TapSkill(5,0,0)
-Call MasterSkill_OneUp(2,2)
-Call TapSkill(4,0,0) // Ã·ÁøÆëÄÈ
-Call MasterSkill_OneUp(2,3)
-Call TapSkill(7,0,0)
-Call TapSkill(8,1,2)
-Call TapSkill(9,1,2) // C´ô
+//Call TapSkill(7,0,0)
+Call TapSkill(8,1,1)
+While isInStage2()=0
+	Delay 270
+	Call ClickAttack()
+	Delay 150
+	Call FocusOn(1,1)
+	Delay 7000
+	Call Wait4OK()
+	Delay 500
+	t = t+1
+Wend
 
+While isInStage2()=1 or t<6
+	Delay 200
+	Call ClickAttack()
+	Delay 150
+	Call FocusOn(1,1)
+	Delay 7000
+	Call Wait4OK()
+	Delay 500
+	t = t+1
+Wend
+
+Call TapSkill(4,0,0)
+Call TapSkill(7,0,0)
+Call MasterSkill_OneUp(1,1) // white christmas, np rate
+Call TapSkill(8,1,1)
+Call TapSkill(3,0,0)
 Delay 250
 Call ClickAttack()
 Delay 150
-Tap 65,1857
-Delay 120
-Call UseCards(7,6,2)
+Call UseCards(6,1,2)
 Delay 12000
-Call Wait4OK()
-Delay 1300
-
-Call TapSkill(6,0,0) // Ã·ÁøÆëÄÈ
-Delay 300
-Call ClickAttack()
-Delay 180
-Call UseCards(7,1,2)
-Delay 8000
 Dim shield = 1
 While True
 	Tap 176, 176

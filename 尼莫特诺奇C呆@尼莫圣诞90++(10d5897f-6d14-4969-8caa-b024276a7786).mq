@@ -101,24 +101,73 @@ Dim t = 1, t2=1, Phase2NPUsed = 0
 // **************************  //
 // **** MODIFY FROM HERE **** //
 // **************************  //
-Call TapSkill(1,0,0)
-//Call TapSkill(2,0,0) 
-//Call TapSkill(3,0,0) // 壹与
-Call MasterSkill_OneUp(2,1)
-Call TapSkill(4,0,0)
-Call MasterSkill_OneUp(2,2)
-Call TapSkill(5,0,0) // 水绘
-Call MasterSkill_OneUp(2,3)
+Call TapSkill(6,0,0)
 Call TapSkill(7,0,0)
-Call TapSkill(8,1,2)
-Call TapSkill(9,1,2) // C呆
+Call TapSkill(8,1,1)
+While t<5 or isInStage2()=0
+	If t = 4 Then 
+		If getHPpercent(2) <= getHPpercent(3) Then 
+			Call MasterSkill_OneUp(2,2) // 回血
+		Else 
+			Call MasterSkill_OneUp(3,2)
+		End If
+	End If
+	Delay 270
+	Call ClickAttack()
+	Delay 150
+	If t = 6 or isInStage2() =1 Then // C呆宝具
+    	Tap GetCardX(8), GetCardY(8)
+		Delay 100
+	ElseIf t >= 2 Then //特诺奇蒂特兰宝具
+    	Tap GetCardX(7), GetCardY(7)
+		Delay 100
+	End If
+	If isInStage2() = 0 Then
+		Call FocusOn(1,1)
+	Else 
+		Call LeastDamage(2)
+	End If
+	Delay 7000
+	Call Wait4OK()
+	Delay 500
+	t = t+1
+Wend
 
+If t<6 Then // C呆宝具
+	Delay 250
+	Call ClickAttack()
+	Delay 150
+    Tap GetCardX(8), GetCardY(8)
+	Delay 100
+	Call LeastDamage(2)
+	Delay 7000
+	Call Wait4OK()
+	Delay 500
+	t = t+1
+End If
+Call TapSkill(4,0,0)
+Call TapSkill(5,0,0)
+Call TapSkill(9,1,1)
+Call TapSkill(3,0,0)
 Delay 250
 Call ClickAttack()
 Delay 150
-Tap 65,1857
-Delay 120
-Call UseCards(7,1,2)
+Call UseCards(6,1,2)
+Delay 7000
+Call Wait4OK()
+Delay 500
+t = t+1
+
+Call TapSkill(8,1,1)
+Call TapSkill(7,0,0)
+Call MasterSkill_AllATKUp(3) // +5 NP
+Call TapSkill(1,0,0)
+Call MasterSkill_OneUp(1,1) // white christmas, np rate
+Call TapSkill(2,0,0)
+Delay 250
+Call ClickAttack()
+Delay 150
+Call UseCards(6,1,2)
 Delay 12000
 Dim shield = 1
 While True
