@@ -5,11 +5,13 @@ Dim SkillJudgePath="Attachment:cardok.png", xxx___=0, yyy___=0
 /*用于判断是否可以继续操作的图，攻击/Attack上部蓝色*/
 Dim paths
 If ReadUIConfig("SupportType") = 2 Then // 奥伯龙
-	paths = Array("Attachment:obr1.png", "Attachment:obr2.png")//, "Attachment:caber2.png", "Attachment:caber3.png")//, "Attachment:waver.png", "Attachment:lord.png", "Attachment:lord2.png")
+	paths = Array("Attachment:obr1.png", "Attachment:obr2.png", "Attachment:obr5.png", "Attachment:obr6.png")    //, "Attachment:lord.png", "Attachment:lord2.png")
 ElseIf ReadUIConfig("SupportType") = 1 // 活动C呆
 	paths = Array("Attachment:caber1p.png", "Attachment:caber2p.png", "Attachment:caber3p.png", "Attachment:caber4p.png")
 ElseIf ReadUIConfig("SupportType") = 0 // 午茶C呆
-	paths = Array("Attachment:caber1.png", "Attachment:caber2.png", "Attachment:caber3.png", "Attachment:caber4.png")
+	paths = Array("Attachment:ctea4.png", "Attachment:ctea3.png", "Attachment:ctea2.png", "Attachment:ctea1.png", "Attachment:caber1.png", "Attachment:caber2.png", "Attachment:caber3.png", "Attachment:caber4.png")
+ElseIf ReadUIConfig("SupportType") = 3 // 午茶RBA
+	paths = Array("Attachment:rbatea5.png","Attachment:rbatea4.png","Attachment:rbatea3.png","Attachment:rbatea2.png","Attachment:rbatea1.png")
 End If	
 //找的助战需要何种从者/礼装
 Dim SkillX=862/*技能x坐标*/, MasterSkillX=467/*御主技能X坐标*/, SingleSkillChooseX=657/*单体技能选择己方从者时的X坐标*/
@@ -40,6 +42,10 @@ ElseIf ReadUIConfig("QuestType") = 3 Then // 20AP yellow
 	QuestAP_Y = 678
 	QuestType = "20APyellow"
 	//QuestAP_Color = "3CC1FF"
+ElseIf ReadUIConfig("QuestType") = 4 Then // Santa EX 5 items once
+	QuestAP_X = 399	
+	QuestAP_Y = 678
+	QuestType = "Santa5EX"
 End If
 //TracePrint QuestType, "EatApple =", EatApple, "AppleNo =", AppleNo, "Team =", ReadUIConfig("Team")+1
 //TracePrint paths(0)
@@ -52,8 +58,8 @@ If ReadUIConfig("StartFromStage1") Then
 	Goto jj
 End If
 Delay 300
-Tap 70,332
-Delay 1700
+/*Tap 70,332
+Delay 1700*/
 Tap 302, 210	//进本
 Delay 700
 If FindPic(0, 0, 0, 0, "Attachment:UseItem.png", "000000", 0, 0.7, xx, yy) = 0 Then 
@@ -70,7 +76,7 @@ If FindPic(0, 0, 0, 0, "Attachment:UseItem.png", "000000", 0, 0.7, xx, yy) = 0 T
 	End If
 End If
 Delay 5000
-If ReadUIConfig("SupportType") = 2 Then // 奥伯龙
+If ReadUIConfig("SupportType") = 2 or ReadUIConfig("SupportType") = 3 Then // 奥伯龙 RBA
 	Tap 195,968 		// !!!点EX!!! ***************************************************
 ElseIf ReadUIConfig("SupportType") = 1 // 活动C呆
 	Tap 189,1270
@@ -88,7 +94,7 @@ ChangeTeam(ReadUIConfig("Team")+1)
 TouchDown 1027,141,  1	//开始战斗
 Delay 600
 TouchUp 1
-Delay 7000		//等待加载
+Delay 13000		//等待加载
 Call Wait4OK()
 Delay 500
 Rem jj
@@ -101,75 +107,44 @@ Dim t = 1, t2=1, Phase2NPUsed = 0
 // **************************  //
 // **** MODIFY FROM HERE **** //
 // **************************  //
-Call TapSkill(6,0,0)
-Call TapSkill(7,0,0)
-Call TapSkill(8,1,1)
-While t<5 or isInStage2()=0
-	If t = 4 Then 
-		If getHPpercent(2) <= getHPpercent(3) Then 
-			Call MasterSkill_OneUp(2,2) // 回血
-		Else 
-			Call MasterSkill_OneUp(3,2)
-		End If
-	End If
+Call TapSkill(1,0,0)
+Call TapSkill(6,1,1)
+While isInStage2() = 0
 	Delay 270
 	Call ClickAttack()
 	Delay 150
-	If t = 6 or isInStage2() =1 Then // C呆宝具
-    	Tap GetCardX(8), GetCardY(8)
-		Delay 100
-	ElseIf t >= 2 Then //特诺奇蒂特兰宝具
-    	Tap GetCardX(7), GetCardY(7)
-		Delay 100
-	End If
-	If isInStage2() = 0 Then
-		Call FocusOn(1,1)
-	Else 
-		Call LeastDamage(2)
-	End If
-	Delay 7000
+	Call Advantage(1)
+	Delay 8000
 	Call Wait4OK()
 	Delay 500
-	t = t+1
+	t = t+1	
 Wend
 
-If t<6 Then // C呆宝具
-	Delay 250
-	Call ClickAttack()
-	Delay 150
-    Tap GetCardX(8), GetCardY(8)
-	Delay 100
-	Call LeastDamage(2)
-	Delay 7000
-	Call Wait4OK()
-	Delay 500
-	t = t+1
-End If
-Call TapSkill(4,0,0)
-Call TapSkill(5,0,0)
-Call TapSkill(9,1,1)
+Call TapSkill(2,0,0)
+Call MasterSkill_OneUp(1,3)
 Call TapSkill(3,0,0)
-Delay 250
+Call MasterSkill_OneUp(1,2)
+Call TapSkill(8,0,0)
+Delay 270
 Call ClickAttack()
 Delay 150
 Call UseCards(6,1,2)
-Delay 7000
+Delay 8000
 Call Wait4OK()
 Delay 500
-t = t+1
+t = t+1	
 
-Call TapSkill(8,1,1)
-Call TapSkill(7,0,0)
-Call MasterSkill_AllATKUp(3) // +5 NP
-Call TapSkill(1,0,0)
-Call MasterSkill_OneUp(1,1) // white christmas, np rate
-Call TapSkill(2,0,0)
-Delay 250
+Call TapSkill(4,0,0)
+Call TapSkill(5,0,0)
+Call TapSkill(7,1,2)
+Call TapSkill(9,1,2)
+Delay 270
 Call ClickAttack()
 Delay 150
-Call UseCards(6,1,2)
-Delay 12000
-Dim shield = 1
+Call UseCards(7,2,1)
+Delay 17000
+
+Dim shield = 0
 While True
 	Tap 176, 176
 	Delay 200
@@ -178,9 +153,9 @@ While True
 	ElseIf FindPic(787, 111, 852, 323, SkillJudgePath, "000000", 3, 0.7, xxx___, yyy___) = 0 // Attack
     	Call Wait4OK()
     	If shield = 0 Then 
-    		Call TapSkill(1, 0, 0)
+    		//Call TapSkill(1, 0, 0)
     		Call TapSkill(6, 0, 0)
-    		Call TapSkill(9, 1, 3)
+    		//Call TapSkill(9, 1, 3)
     		shield = 1
     	End If
 		Delay 500
@@ -218,8 +193,6 @@ While True
     End If
 Wend
 */
-
-
 
 Function FocusOn(TargetPlace, forced)
 	/* 集中火力平A 若有Core的多张卡 则去打大怪，否则打其他小怪 */
@@ -1593,9 +1566,9 @@ End Function
 //本脚本是以手机右侧为横屏后fgo屏幕下方为基准制作的
 Function Slide1PageSupport()
     //下拉一页找助战
-    TouchDown 986, 418, 1
+    TouchDown 986, 317, 1
     Delay 17
-    TouchMove 640, 418, 1, 45
+    TouchMove 640, 317, 1, 45
     Delay 17
     TouchUp 1
     //Swipe 986, 418, 620, 418, 25
@@ -2260,12 +2233,18 @@ Function EndBattle()
     Delay 2000
     Tap 1014, 38
     Delay 1700
-    Tap  849,1100	// 不连续出击
+    Tap 920,1200
+    Delay 1700
+    Tap 877,1282	// 不连续出击
     Delay 800
-    Tap  849,1100	// 不连续出击 backup
+    Tap 877,1282	// 不连续出击 backup
     Do Until (CmpColor(QuestAP_X, QuestAP_Y, "FFFFFF", 0.99) = 0/*白字21AP*/ or CmpColor(QuestAP_X, QuestAP_Y, "3CC1FF", 0.99) = 0 /*黄字20AP*/or CmpColor(39,1484,"9EF7F7",0.95) = 0/*礼装掉落*/)
         //Tap 898,1212	//不申请野生助战
-        Tap 61,330
+        If StrnComp(QuestType, "free", 4) = 0 Then
+            Tap 492,36 // free点滚动条
+        Else
+            Tap 70,332 // 迦勒底之门店上面
+        End If
         If CmpColor(QuestAP_X, QuestAP_Y, QuestAP_Color, 0.98) = 0 Then
             If (EatApple = True) Then 
                 Exit Do
@@ -2277,7 +2256,7 @@ Function EndBattle()
                 EndScript
             End If
         End If
-        If CmpColor(974,1469, "1F9BB4", 0.98) = 0 Then 
+        If CmpColor(974,1469, "5397A6", 0.98) = 0 Then 
             Tap 920,1200
             Delay 1700
             Tap 877,1282	// 不连续出击
@@ -2315,6 +2294,15 @@ Function isInStage2()
         Exit Function
     End If
     isInStage2 = 0
+End Function
+
+Function isEnemy3()
+    //判断当前面敌人数量是否是3，是->1，不是->0
+    If CmpColorEx("83|523|F2F2F2,81|521|F3F3F3,79|519|D5D5D5,79|517|E3E3E3,79|515|E5E5E5,79|513|DBDBDB,80|511|F8F8F8,82|509|F7F7F7,84|509|FEFEFE,86|509|FFFFFF,88|510|E8E8E8,90|513|F1F1F1,91|514|F7F7F7,91|516|F2F2F2,91|518|E6E6E6", 0.8) = 1 Then 
+        isEnemy3 = 1
+        Exit Function
+    End If
+    isEnemy3 = 0
 End Function
 
 Function getHPpercent(SvtPos)
